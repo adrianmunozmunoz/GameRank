@@ -1,0 +1,14 @@
+from django.urls import path
+from django.views.generic import TemplateView
+
+from . import views
+
+urlpatterns = [
+    path('', views.inicio, name='inicio'),
+    path('juego/<str:id_juego>/', views.detalle_juego, name='detalle_juego'),
+    path('usuario/', views.pagina_usuario, name='pagina_usuario'),
+    path('votados/', views.juegos_votados, name='juegos_votados'),
+    path('seguidos/', views.juegos_seguidos, name='juegos_seguidos'),
+    path('configuracion/', views.configuracion, name='configuracion'),
+    path('ayuda/', TemplateView.as_view(template_name='gamerank/ayuda.html'), name='ayuda'),
+]

@@ -1,0 +1,91 @@
+/* === TIPOS DE LETRA PERSONALIZABLES === */
+/* === FUENTES MEJORADAS CON GOOGLE FONTS === */
+.fuente-sans-serif {
+    font-family: 'Rubik', 'Segoe UI', sans-serif;
+}
+
+.fuente-serif {
+    font-family: 'Roboto Slab', 'Georgia', serif;
+}
+
+.fuente-monospace {
+    font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+.fuente-decorativa {
+    font-family: 'Pacifico', cursive;
+}
+
+/* === TAMAÑOS DE TEXTO AMPLIADOS === */
+.tamano-small {
+    font-size: 13px;
+}
+
+.tamano-medium {
+    font-size: 16px;
+}
+
+.tamano-large {
+    font-size: 20px;
+}
+
+.tamano-xl {
+    font-size: 24px;
+}
+
+/* === ESTILOS PARA CABECERA === */
+.header {
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    color: white;
+    text-align: center;
+}
+
+/* === TARJETAS DE JUEGOS === */
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+/* === PIE DE PÁGINA === */
+footer {
+    font-size: 0.85rem;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    margin-top: 3rem;
+}
+
+/* === BOTONES DE SEGUIR / DEJAR DE SEGUIR === */
+.btn-outline-success,
+.btn-outline-danger {
+    min-width: 110px;
+    text-align: center;
+}
+
+/* === COMENTARIOS === */
+.comment-box {
+    border-left: 4px solid #ccc;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* === LISTAS PERSONALIZADAS (ayuda) === */
+ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* === ENLACES ACTIVOS EN EL MENÚ === */
+nav a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* === CABECERA CON IMAGEN DE FONDO PERSONALIZADA === */
+header {
+    background-image: url('https://picsum.photos/1200/200?blur=2');
+}

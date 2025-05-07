@@ -1,0 +1,47 @@
+{% extends "gamerank/base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Ayuda</h2>
+
+<!-- INTRODUCCIÓN -->
+<p class="lead">Bienvenido a <strong>GameRank</strong>, tu plataforma para explorar, valorar y seguir videojuegos.</p>
+
+<hr>
+
+<!-- SECCIÓN DE FUNCIONALIDADES -->
+<h3>¿Qué puedes hacer en GameRank?</h3>
+<ul>
+    <li><strong>Explorar juegos:</strong> La página principal muestra los juegos ordenados por su puntuación media.</li>
+    <li><strong>Consultar detalles:</strong> Haz clic en un título para ver su ficha completa con descripción, desarrollador, imagen y enlace al juego.</li>
+    <li><strong>Votar y comentar:</strong> Si has iniciado sesión, puedes valorar un juego de 0 a 5 y dejar comentarios visibles públicamente.</li>
+    <li><strong>Seguir juegos:</strong> Marca tus juegos favoritos y accede a ellos rápidamente desde tu perfil.</li>
+    <li><strong>Ver tu perfil:</strong> Accede a tu actividad: puntuaciones, juegos seguidos y comentarios.</li>
+    <li><strong>Configurar tu experiencia:</strong> Cambia tu alias, el tipo de letra y el tamaño del texto desde la sección de configuración.</li>
+</ul>
+
+<hr>
+
+<!-- SECCIÓN DE AUTENTICACIÓN -->
+<h3>¿Cómo iniciar sesión?</h3>
+<p>
+    Usa el botón de <strong>Login</strong> en el menú, o accede a cualquier página privada. Si no tienes cuenta, pídele a tu profesor que te cree una desde el sitio de administración (<code>/admin/</code>).
+</p>
+
+<hr>
+
+<!-- SECCIÓN DE CRÉDITOS -->
+<h3>Créditos y agradecimientos</h3>
+<ul>
+    <li><strong>Desarrollador:</strong> [Tu nombre o alias]</li>
+    <li><strong>Profesor:</strong> [Nombre del profesor, si quieres]</li>
+    <li><strong>Curso:</strong> Servicios y Aplicaciones Telemáticas — URJC 2024–2025</li>
+</ul>
+
+<hr>
+
+<!-- CONTACTO -->
+<p>Si tienes dudas, contacta con tu profesor o revisa el sitio regularmente para nuevas funcionalidades.</p>
+
+<!-- BOTÓN DE VOLVER -->
+<a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver al inicio</a>
+{% endblock %}

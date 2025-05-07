@@ -1,0 +1,55 @@
+{% extends "gamerank/base.html" %}
+
+{% block content %}
+<!-- TÍTULO DE LA PÁGINA -->
+<h2 class="mb-4">Tus juegos seguidos</h2>
+
+{% if juegos %}
+<!-- TABLA DE JUEGOS SEGUIDOS -->
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Plataforma</th>
+                <th>Puntuación media</th>
+                <th>Votos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for juego in juegos %}
+            <tr>
+                <td><a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a></td>
+                <td>{{ juego.genero }}</td>
+                <td>{{ juego.plataforma }}</td>
+                <td class="text-center">
+                    {% if juego.puntuacion_media %}
+                        {{ juego.puntuacion_media|floatformat:1 }}/5
+                        <br>
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= juego.puntuacion_media %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td class="text-center">{{ juego.total_votos }}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-danger" disabled>Siguiendo</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <p>No estás siguiendo ningún juego todavía.</p>
+{% endif %}
+<a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← Volver a tu perfil</a>
+{% endblock %}
