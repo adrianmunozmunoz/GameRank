@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import LOGIN_URL, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
+from django.conf.global_settings import LOGIN_URL, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL, STATIC_ROOT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-mdf^=t3%vnk&!*fo7xdhl%9$^j@t89(#f-hq*myfu**)61h)w("
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["gamerank.pythonanywhere.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["adrimm.pythonanywhere.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -125,6 +125,8 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Default primary key field type

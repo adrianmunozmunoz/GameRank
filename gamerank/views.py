@@ -235,6 +235,35 @@ def configuracion(request):
 
     return render(request, "gamerank/configuracion.html")
 
+from django.http import JsonResponse
+
+@require_GET
+def juego_json(request, id_juego):
+    """
+    Devuelve los datos de un juego en formato JSON, incluyendo número de comentarios.
+    """
+    juego = get_object_or_404(Juego, id_juego=id_juego)
+    comentarios_count = Comentario.objects.filter(juego=juego).count()
+    puntuacion_media = juego.puntuacion_media()
+
+    data = {
+        "id_juego": juego.id_juego,
+        "titulo": juego.titulo,
+        "genero": juego.genero,
+        "plataforma": juego.plataforma,
+        "desarrollador": juego.desarrollador,
+        "publicador": juego.publicador,
+        "fecha_lanzamiento": juego.fecha_lanzamiento.strftime('%Y-%m-%d') if juego.fecha_lanzamiento else None,
+        "descripcion_corta": juego.descripcion_corta,
+        "url_juego": juego.url_juego,
+        "imagen_miniatura": juego.imagen_miniatura,
+        "puntuacion_media": round(puntuacion_media, 2) if puntuacion_media is not None else None,
+        "numero_comentarios": comentarios_count
+    }
+
+    return JsonResponse(data)
+
+
 
 
 @login_required
