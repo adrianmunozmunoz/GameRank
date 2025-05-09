@@ -1,47 +1,47 @@
 {% extends "gamerank/base.html" %}
 
 {% block content %}
-<h2 class="mb-4">Ayuda</h2>
+<section class="section-title">❓ Centro de Ayuda</section>
 
-<!-- INTRODUCCIÓN -->
-<p class="lead">Bienvenido a <strong>GameRank</strong>, tu plataforma para explorar, valorar y seguir videojuegos.</p>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 p-4">
 
-<hr>
+            <p class="lead">Bienvenido a <strong>GameRank</strong>, tu plataforma para explorar, valorar y seguir videojuegos.</p>
 
-<!-- SECCIÓN DE FUNCIONALIDADES -->
-<h3>¿Qué puedes hacer en GameRank?</h3>
-<ul>
-    <li><strong>Explorar juegos:</strong> La página principal muestra los juegos ordenados por su puntuación media.</li>
-    <li><strong>Consultar detalles:</strong> Haz clic en un título para ver su ficha completa con descripción, desarrollador, imagen y enlace al juego.</li>
-    <li><strong>Votar y comentar:</strong> Si has iniciado sesión, puedes valorar un juego de 0 a 5 y dejar comentarios visibles públicamente.</li>
-    <li><strong>Seguir juegos:</strong> Marca tus juegos favoritos y accede a ellos rápidamente desde tu perfil.</li>
-    <li><strong>Ver tu perfil:</strong> Accede a tu actividad: puntuaciones, juegos seguidos y comentarios.</li>
-    <li><strong>Configurar tu experiencia:</strong> Cambia tu alias, el tipo de letra y el tamaño del texto desde la sección de configuración.</li>
-</ul>
+            <hr>
 
-<hr>
+            <h4><i class="fas fa-gamepad"></i> ¿Qué puedes hacer en GameRank?</h4>
+            <ul class="list-unstyled ps-3">
+                <li><i class="fas fa-search text-success me-2"></i> Explorar juegos mejor valorados.</li>
+                <li><i class="fas fa-info-circle text-success me-2"></i> Ver detalles de cada título.</li>
+                <li><i class="fas fa-star text-success me-2"></i> Puntuar del 0 al 5 y dejar comentarios.</li>
+                <li><i class="fas fa-heart text-success me-2"></i> Seguir tus juegos favoritos.</li>
+                <li><i class="fas fa-user text-success me-2"></i> Ver tu perfil con toda tu actividad.</li>
+                <li><i class="fas fa-cog text-success me-2"></i> Configurar la apariencia del sitio.</li>
+            </ul>
 
-<!-- SECCIÓN DE AUTENTICACIÓN -->
-<h3>¿Cómo iniciar sesión?</h3>
-<p>
-    Usa el botón de <strong>Login</strong> en el menú, o accede a cualquier página privada. Si no tienes cuenta, pídele a tu profesor que te cree una desde el sitio de administración (<code>/admin/</code>).
-</p>
+            <hr>
 
-<hr>
+            <h4><i class="fas fa-lock"></i> ¿Cómo iniciar sesión?</h4>
+            <p>
+                Usa el botón <strong>Entrar</strong> en el menú. Si no tienes cuenta, pídele a tu profesor que te cree una desde <code>/admin/</code>.
+            </p>
 
-<!-- SECCIÓN DE CRÉDITOS -->
-<h3>Créditos y agradecimientos</h3>
-<ul>
-    <li><strong>Desarrollador:</strong> [Tu nombre o alias]</li>
-    <li><strong>Profesor:</strong> [Nombre del profesor, si quieres]</li>
-    <li><strong>Curso:</strong> Servicios y Aplicaciones Telemáticas — URJC 2024–2025</li>
-</ul>
+            <hr>
 
-<hr>
+            <h4><i class="fas fa-users"></i> Créditos</h4>
+            <ul class="list-unstyled">
+                <li><strong>Desarrollador:</strong> Adrián Muñoz</li>
+                <li><strong>Profesores:</strong> Francisco M. Melgarejo y Luis Bote Curiel</li>
+                <li><strong>Curso:</strong> Servicios y Aplicaciones Telemáticas — URJC 2024–2025</li>
+            </ul>
 
-<!-- CONTACTO -->
-<p>Si tienes dudas, contacta con tu profesor o revisa el sitio regularmente para nuevas funcionalidades.</p>
+            <div class="text-end mt-3">
+                <a href="{% url 'inicio' %}" class="btn btn-outline-primary">← Volver al inicio</a>
+            </div>
 
-<!-- BOTÓN DE VOLVER -->
-<a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver al inicio</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

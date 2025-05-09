@@ -34,8 +34,6 @@ def configuracion_usuario(request):
     Devuelve la configuración visual del usuario autenticado.
     """
     if request.user.is_authenticated:
-        try:
-            return {'config': ConfiguracionUsuario.objects.get(usuario=request.user)}
-        except ConfiguracionUsuario.DoesNotExist:
-            return {'config': None}
+        config, _ = ConfiguracionUsuario.objects.get_or_create(usuario=request.user)
+        return {'config': config}
     return {'config': None}

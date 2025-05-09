@@ -1,0 +1,8 @@
+{% comment %} Estrellas usando Font Awesome {% endcomment %}
+{% for i in "12345" %}
+    {% if forloop.counter <= puntuacion %}
+        <i class="fas fa-star text-warning"></i>
+    {% else %}
+        <i class="far fa-star text-warning"></i>
+    {% endif %}
+{% endfor %}

@@ -2,46 +2,57 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.db.models import Avg
+from django.http import JsonResponse, Http404
+from django.views.decorators.http import require_GET, require_POST
 
-from . import models
+
 from .models import Juego, Comentario, Valoracion, Seguimiento, ConfiguracionUsuario
 
 
-def inicio(request):
+def procesar_seguimiento(request, juegos, redireccion):
     """
-    Página principal que muestra los juegos ordenados por puntuación media descendente.
-    Permite seguir y dejar de seguir juegos si el usuario está autenticado.
+    Procesa los formularios de seguir/dejar de seguir juegos.
+    Si se ha pulsado algún botón, realiza el cambio en la base de datos y redirige.
+    No devuelve nada. La vista que lo llama debe encargarse de recalcular los datos tras el POST.
     """
-    juegos = list(Juego.objects.all())  # Convertimos el queryset en lista para ordenarlo manualmente
-    juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)  # Ordenamos por puntuación media
-
-    alias = None
-    if request.user.is_authenticated:
-        # Si el usuario está autenticado, recogemos su alias y los juegos que ya sigue
-        alias = request.user.username
+    if request.method == 'POST':
+        # Conjunto de IDs de juegos que el usuario ya sigue
         seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
 
-        if request.method == 'POST':
-            # Procesamos la solicitud POST para seguir o dejar de seguir juegos
-            for juego in juegos:
-                seguir_key = f"Seguir_{juego.id_juego}"
-                dejar_seguir_key = f"Dejar_seguir_{juego.id_juego}"
+        for juego in juegos:
+            seguir_key = f"Seguir_{juego.id_juego}"
+            dejar_seguir_key = f"Dejar_seguir_{juego.id_juego}"
 
-                if seguir_key in request.POST and juego.id_juego not in seguidos_ids:
-                    # Crear el seguimiento si aún no se sigue
-                    Seguimiento.objects.create(usuario=request.user, juego=juego)
-                    return redirect('inicio')
+            if seguir_key in request.POST and juego.id_juego not in seguidos_ids:
+                Seguimiento.objects.create(usuario=request.user, juego=juego)
+                return redirect(redireccion)
 
-                if dejar_seguir_key in request.POST and juego.id_juego in seguidos_ids:
-                    # Eliminar el seguimiento si ya se sigue
-                    Seguimiento.objects.filter(usuario=request.user, juego=juego).delete()
-                    return redirect('inicio')
+            if dejar_seguir_key in request.POST and juego.id_juego in seguidos_ids:
+                Seguimiento.objects.filter(usuario=request.user, juego=juego).delete()
+                return redirect(redireccion)
 
-        # Añadimos atributo booleano a cada juego para que la plantilla sepa si está seguido
+def inicio(request):
+    """
+    Página principal que muestra los juegos ordenados por puntuación media.
+    Si se hace POST desde botones seguir/dejar de seguir, se procesa y se redirige.
+    Luego se calcula seguidos_ids y se marca cada juego como seguido o no.
+    """
+    juegos = list(Juego.objects.all())
+    juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
+
+    if request.user.is_authenticated:
+        procesar_seguimiento(request, juegos, 'inicio')
+        # Recalcular seguidos tras posibles cambios
+        seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
         for j in juegos:
             j.seguido = j.id_juego in seguidos_ids
+    else:
+        seguidos_ids = set()
 
-    return render(request, 'gamerank/index.html', {'juegos': juegos, 'alias': alias})
+    return render(request, 'gamerank/inicio.html', {
+        'juegos': juegos,
+        'seguidos_ids': seguidos_ids,
+    })
 
 def detalle_juego(request, id_juego):
     """
@@ -99,13 +110,14 @@ def detalle_juego(request, id_juego):
                 return redirect("detalle_juego", id_juego=id_juego)
 
     # Renderizar la plantilla con todos los datos necesarios
-    return render(request, "gamerank/game_detail.html", {
+    return render(request, "gamerank/detalle_juego.html", {
         "juego": juego,
         "comentarios": comentarios,
         "valoracion_usuario": valoracion_usuario,
         "seguimiento_usuario": seguimiento_usuario,
         "rango_votacion": range(1, 6),  # Para el formulario de votación (1–5)
     })
+
 
 @login_required
 def pagina_usuario(request):
@@ -120,10 +132,6 @@ def pagina_usuario(request):
       - Comentarios realizados por el usuario.
     """
     usuario = request.user
-
-    # Estadísticas globales
-    total_juegos = Juego.objects.count()
-    total_comentarios = Comentario.objects.count()
 
     # Valoraciones del usuario
     valoraciones_usuario = Valoracion.objects.filter(usuario=usuario)
@@ -143,8 +151,6 @@ def pagina_usuario(request):
 
     return render(request, 'gamerank/pagina_usuario.html', {
         'user': usuario,
-        'total_juegos': total_juegos,
-        'total_comentarios': total_comentarios,
         'num_votaciones': num_votaciones,
         'media_usuario': media_usuario,
         'num_comentarios_usuario': num_comentarios_usuario,
@@ -153,10 +159,13 @@ def pagina_usuario(request):
         'comentarios_usuario': comentarios_usuario,
     })
 
+
+
 @login_required
 def juegos_votados(request):
     """
-    Muestra los juegos que el usuario ha votado, ordenados por puntuación dada.
+    Muestra los juegos votados por el usuario, ordenados por su puntuación.
+    Permite seguir/dejar de seguir directamente desde esta vista.
     """
     valoraciones = Valoracion.objects.filter(usuario=request.user).select_related('juego')
     juegos = []
@@ -166,9 +175,12 @@ def juegos_votados(request):
         juego.mi_voto = v.voto
         juegos.append(juego)
 
-    # Ordenamos por voto descendente
     juegos.sort(key=lambda j: j.mi_voto, reverse=True)
 
+    # Procesar seguimiento y redirigir si es necesario
+    procesar_seguimiento(request, juegos, 'juegos_votados')
+
+    # Recalcular juegos seguidos tras el POST
     seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
 
     return render(request, 'gamerank/juegos_votados.html', {
@@ -179,16 +191,28 @@ def juegos_votados(request):
 @login_required
 def juegos_seguidos(request):
     """
-    Muestra los juegos que el usuario sigue, ordenados por puntuación media descendente.
+    Muestra los juegos que el usuario sigue.
+    Se permite dejar de seguir directamente desde esta vista.
     """
+    # Obtener los juegos seguidos antes del posible POST
     seguimientos = Seguimiento.objects.filter(usuario=request.user).select_related('juego')
     juegos = [s.juego for s in seguimientos]
     juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
 
+    # Procesar cambios y redirigir si corresponde
+    procesar_seguimiento(request, juegos, 'juegos_seguidos')
+
+    # Recalcular tras POST para evitar necesidad de doble recarga
+    seguimientos = Seguimiento.objects.filter(usuario=request.user).select_related('juego')
+    juegos = [s.juego for s in seguimientos]
+    juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
+    seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
+
     return render(request, 'gamerank/juegos_seguidos.html', {
         'juegos': juegos,
-        'seguidos_ids': set(j.id_juego for j in juegos),
+        'seguidos_ids': seguidos_ids,
     })
+
 
 @login_required
 def configuracion(request):
@@ -199,8 +223,8 @@ def configuracion(request):
 
     if request.method == "POST":
         alias = request.POST.get("alias", "").strip()
-        tipo_letra = request.POST.get("tipo_letra", "sans-serif")
-        tamano_texto = request.POST.get("tamano_texto", "medium")
+        tipo_letra = request.POST.get("tipo_letra", "")
+        tamano_texto = request.POST.get("tamano_texto", "")
 
         config.alias = alias
         config.tipo_letra = tipo_letra
@@ -209,6 +233,58 @@ def configuracion(request):
 
         return redirect("configuracion")
 
-    return render(request, "gamerank/configuracion.html", {
-        "config": config
+    return render(request, "gamerank/configuracion.html")
+
+
+
+@login_required
+def detalle_juego_htmx(request, id_juego):
+    """
+    Página principal con HTMX. Carga secciones dinámicas (comentarios + formulario).
+    """
+    juego = get_object_or_404(Juego, id_juego=id_juego)
+    seguido = juego.seguimiento_set.filter(usuario=request.user).exists()
+    valoracion_usuario = Valoracion.objects.filter(juego=juego, usuario=request.user).first()
+
+    return render(request, "gamerank/detalle_juego_htmx.html", {
+        "juego": juego,
+        "seguido": seguido,
+        "valoracion_usuario": valoracion_usuario,
+        "rango_votacion": range(1, 6),
+    })
+
+
+@require_GET
+@login_required
+def comentarios_htmx(request, id_juego):
+    """
+    Devuelve solo los comentarios del juego en HTML para HTMX.
+    """
+    juego = get_object_or_404(Juego, id_juego=id_juego)
+    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
+    return render(request, "gamerank/includes/comentarios_htmx.html", {
+        "comentarios": comentarios
+    })
+
+@require_POST
+@login_required
+def publicar_comentario_htmx(request, id_juego):
+    """
+    Publica un nuevo comentario y devuelve la lista HTML actualizada.
+    """
+    juego = get_object_or_404(Juego, id_juego=id_juego)
+    texto = request.POST.get("texto_comentario", "").strip()
+
+    if texto:
+        Comentario.objects.create(
+            juego=juego,
+            usuario=request.user,
+            texto=texto,
+            fecha=timezone.now()
+        )
+
+    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
+    return render(request, "gamerank/includes/comentarios_htmx.html", {
+        "comentarios": comentarios,
+        "juego": juego
     })

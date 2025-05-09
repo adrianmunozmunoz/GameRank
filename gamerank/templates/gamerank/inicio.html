@@ -1,50 +1,45 @@
-{% extends "gamerank/base.html" %} <!-- Hereda de la plantilla base que contiene cabecera, menú y pie -->
+{% extends "gamerank/base.html" %} <!-- Hereda de la plantilla base -->
 
 {% block content %}
-<!-- TÍTULO DE LA PÁGINA PRINCIPAL (GRANDE Y CENTRADO) -->
-<h2 class="mb-4 text-center">Juegos mejor valorados</h2>
 
+<!-- TÍTULO DE LA PÁGINA PRINCIPAL -->
+<h2 class="section-title">Juegos mejor valorados</h2>
+
+<!-- FORMULARIO para seguir/dejar de seguir juegos -->
 <form method="POST">
     {% csrf_token %}
-    <!-- Muestra 1 tarjeta por fila en pantallas pequeñas, 2 en medianas, 3 en grandes -->
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for juego in juegos %}
         <div class="col">
             <div class="card h-100 shadow-sm border-0">
 
                 {% if juego.imagen_miniatura %}
-                    <img src="{{ juego.imagen_miniatura }}" class="card-img-top" alt="Imagen de {{ juego.titulo }}">
+                    <img src="{{ juego.imagen_miniatura }}" class="card-img-top rounded-top" alt="Imagen de {{ juego.titulo }}">
                 {% endif %}
 
                 <div class="card-body">
                     <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
                     <p class="card-text mb-1"><strong>Género:</strong> {{ juego.genero }}</p>
                     <p class="card-text mb-1"><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
-                    <p class="card-text mb-1"><strong>Puntuación:</strong>
+                    <p class="card-text mb-1">
+                        <strong>Puntuación:</strong>
                         {% if juego.puntuacion_media %}
-                            {{ juego.puntuacion_media|floatformat:1 }}/5
-                            <br>
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= juego.puntuacion_media %}
-                                    ★
-                                {% else %}
-                                    ☆
-                                {% endif %}
-                            {% endfor %}
+                            {% include "gamerank/includes/estrellas.html" with puntuacion=juego.puntuacion_media %}
+                            <span class="ms-2 text-muted small">({{ juego.puntuacion_media|floatformat:1 }}/5)</span>
                         {% else %}
-                            N/A
+                            <span class="text-muted">N/A</span>
                         {% endif %}
                     </p>
                     <p class="card-text"><strong>Votos:</strong> {{ juego.total_votos }}</p>
                 </div>
 
                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                    <!-- Botón para acceder a los detalles del juego -->
                     <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary">
                         Ver detalles
                     </a>
+
                     {% if user.is_authenticated %}
-                        <!-- Botón para seguir o dejar de seguir el juego, según corresponda -->
                         {% if juego.seguido %}
                             <button type="submit" name="Dejar_seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-danger">
                                 Dejar de seguir

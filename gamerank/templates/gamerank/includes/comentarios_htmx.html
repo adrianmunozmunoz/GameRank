@@ -1,0 +1,11 @@
+<ul class="list-group">
+    {% for comentario in comentarios %}
+        <li class="list-group-item">
+            <p class="mb-1"><strong>{{ comentario.usuario.username }}</strong>:</p>
+            <p class="mb-0">{{ comentario.texto }}</p>
+            <small class="text-muted">{{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Todavía no hay comentarios.</li>
+    {% endfor %}
+</ul>

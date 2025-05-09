@@ -1,7 +1,7 @@
 {% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
 
 {% block content %}
-<h2 class="mb-4">{{ juego.titulo }}</h2>
+<h2 class="section-title">{{ juego.titulo }}</h2>
 
 {% if user.is_authenticated %}
     <!-- Formulario para seguir o dejar de seguir el juego -->
@@ -45,13 +45,7 @@
         <!-- Si ya ha votado el juego -->
         <p>
             Ya has puntuado este juego con:
-            {% for i in "12345" %}
-                {% if forloop.counter <= valoracion_usuario.voto %}
-                    ★
-                {% else %}
-                    ☆
-                {% endif %}
-            {% endfor %}
+            {% include "gamerank/includes/estrellas.html" with puntuacion=valoracion_usuario.voto %}
             <small>({{ valoracion_usuario.voto }}/5)</small>
         </p>
 
@@ -111,4 +105,10 @@
 <!-- BOTÓN VOLVER -->
 <a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver</a>
 
+<!-- ENLACE A VERSIÓN HTMX -->
+<div class="mt-3">
+    <a href="{% url 'detalle_juego_htmx' juego.id_juego %}" class="btn btn-outline-secondary btn-sm">
+        Ver esta ficha en modo dinámico (HTMX)
+    </a>
+</div>
 {% endblock %}

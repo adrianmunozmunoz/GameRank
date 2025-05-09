@@ -1,0 +1,100 @@
+{% extends "gamerank/base.html" %}
+{% block content %}
+
+<h2 class="section-title">{{ juego.titulo }} (modo dinámico)</h2>
+
+<!-- BOTÓN SEGUIR / DEJAR DE SEGUIR -->
+<form method="POST" action="{% url 'detalle_juego' juego.id_juego %}" class="mb-4">
+    {% csrf_token %}
+    {% if seguido %}
+        <button type="submit" name="dejar_seguir" class="btn btn-outline-danger btn-sm">Dejar de seguir</button>
+    {% else %}
+        <button type="submit" name="seguir" class="btn btn-outline-success btn-sm">Seguir</button>
+    {% endif %}
+</form>
+
+<!-- INFORMACIÓN DEL JUEGO -->
+<div class="row mb-5">
+    <div class="col-md-8">
+        <p><strong>Género:</strong> {{ juego.genero }}</p>
+        <p><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
+        <p><strong>Desarrollador:</strong> {{ juego.desarrollador }}</p>
+        <p><strong>Publicador:</strong> {{ juego.publicador }}</p>
+        <p><strong>Fecha de lanzamiento:</strong> {{ juego.fecha_lanzamiento }}</p>
+        <p><strong>Descripción:</strong> {{ juego.descripcion_corta }}</p>
+        {% if juego.url_juego %}
+            <a href="{{ juego.url_juego }}" target="_blank" class="btn btn-primary">Jugar</a>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        {% if juego.imagen_miniatura %}
+            <img src="{{ juego.imagen_miniatura }}" class="img-fluid rounded" alt="Imagen del juego">
+        {% endif %}
+    </div>
+</div>
+
+<!-- VALORACIÓN DEL USUARIO -->
+<h3 class="mt-5">Tu valoración</h3>
+{% if valoracion_usuario %}
+    <p>
+        Ya has puntuado este juego con:
+        {% include "gamerank/includes/estrellas.html" with puntuacion=valoracion_usuario.voto %}
+        <small>({{ valoracion_usuario.voto }}/5)</small>
+    </p>
+{% else %}
+    <form method="POST" action="{% url 'detalle_juego' juego.id_juego %}" class="mb-4">
+        {% csrf_token %}
+        <label for="votoSelect" class="form-label">Selecciona una puntuación:</label>
+        <select id="votoSelect" name="voto" class="form-select w-auto d-inline-block" required>
+            <option value="">-- Elige --</option>
+            {% for n in rango_votacion %}
+                <option value="{{ n }}">{{ n }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-sm btn-success">Votar</button>
+    </form>
+{% endif %}
+
+<hr class="my-5">
+
+<!-- FORMULARIO DE COMENTARIO (HTMX POST) -->
+<h3>Escribe un comentario</h3>
+<form
+    id="form-comentario"
+    hx-post="{% url 'publicar_comentario_htmx' juego.id_juego %}"
+    hx-target="#content_htmx"
+    hx-swap="innerHTML"
+    hx-on="htmx:afterRequest: this.reset()"
+    class="mb-4"
+>
+    {% csrf_token %}
+    <div class="mb-3">
+        <textarea name="texto_comentario" class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Publicar</button>
+</form>
+
+<hr>
+
+<!-- COMENTARIOS CON ACTUALIZACIÓN AUTOMÁTICA -->
+<h3>Comentarios recientes</h3>
+<div
+    hx-get="{% url 'comentarios_htmx' juego.id_juego %}"
+    hx-trigger="load, change, every 30s"
+    hx-target="#content_htmx"
+    hx-swap="innerHTML"
+></div>
+<div id="content_htmx">
+    {% include "gamerank/includes/comentarios_htmx.html" %}
+</div>
+
+<!-- BOTONES FINALES -->
+<a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver</a>
+
+<div class="mt-3">
+    <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-outline-secondary btn-sm">
+        Ver esta ficha en modo tradicional
+    </a>
+</div>
+
+{% endblock %}

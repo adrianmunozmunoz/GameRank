@@ -1,55 +1,67 @@
 {% extends "gamerank/base.html" %}
 
 {% block content %}
-<!-- TÍTULO DE LA PÁGINA -->
-<h2 class="mb-4">Tus juegos seguidos</h2>
+
+<!-- TÍTULO PRINCIPAL DE LA SECCIÓN -->
+<h2 class="section-title">Tus juegos seguidos</h2>
 
 {% if juegos %}
-<!-- TABLA DE JUEGOS SEGUIDOS -->
-<div class="table-responsive">
-    <table class="table table-hover table-bordered align-middle">
-        <thead class="table-dark text-center">
-            <tr>
-                <th>Título</th>
-                <th>Género</th>
-                <th>Plataforma</th>
-                <th>Puntuación media</th>
-                <th>Votos</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for juego in juegos %}
-            <tr>
-                <td><a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a></td>
-                <td>{{ juego.genero }}</td>
-                <td>{{ juego.plataforma }}</td>
-                <td class="text-center">
+<!-- FORMULARIO PARA PERMITIR 'DEJAR DE SEGUIR' -->
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- DISEÑO RESPONSIVE EN TARJETAS -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for juego in juegos %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+
+                <!-- Imagen del juego (si tiene) -->
+                {% if juego.imagen_miniatura %}
+                    <img src="{{ juego.imagen_miniatura }}" class="card-img-top" alt="Imagen de {{ juego.titulo }}">
+                {% endif %}
+
+                <!-- Cuerpo de la tarjeta con info útil -->
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
+
                     {% if juego.puntuacion_media %}
-                        {{ juego.puntuacion_media|floatformat:1 }}/5
-                        <br>
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= juego.puntuacion_media %}
-                                ★
-                            {% else %}
-                                ☆
-                            {% endif %}
-                        {% endfor %}
+                        <p class="card-text mb-1">
+                            <strong>Puntuación media:</strong> {{ juego.puntuacion_media|floatformat:1 }}/5
+                            <br>
+                            {% include "gamerank/includes/estrellas.html" with puntuacion=juego.puntuacion_media %}
+                        </p>
                     {% else %}
-                        N/A
+                        <p class="card-text"><strong>Puntuación media:</strong> N/A</p>
                     {% endif %}
-                </td>
-                <td class="text-center">{{ juego.total_votos }}</td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-outline-danger" disabled>Siguiendo</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+
+                    <p class="card-text"><strong>Votos:</strong> {{ juego.total_votos }}</p>
+                    <p class="card-text"><strong>Género:</strong> {{ juego.genero }}</p>
+                    <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
+                </div>
+
+                <!-- Pie con botones de acción -->
+                <div class="card-footer bg-white border-0 text-center">
+                    <button type="submit" name="Dejar_seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-danger me-2">
+                        Dejar de seguir
+                    </button>
+                    <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary">
+                        Ver detalles
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</form>
+
 {% else %}
+    <!-- Si no sigue ningún juego -->
     <p>No estás siguiendo ningún juego todavía.</p>
 {% endif %}
+
+<!-- Enlace para volver al perfil del usuario -->
 <a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← Volver a tu perfil</a>
+
 {% endblock %}
