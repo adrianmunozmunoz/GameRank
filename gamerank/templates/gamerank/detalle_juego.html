@@ -72,21 +72,8 @@
 
 <!-- COMENTARIOS -->
 <h3>Comentarios</h3>
-
-{% if comentarios %}
-    <!-- Lista de comentarios existentes -->
-    <ul class="list-group mb-4">
-        {% for comentario in comentarios %}
-        <li class="list-group-item">
-            <p class="mb-1"><strong>{{ comentario.usuario.username }}</strong> dijo:</p>
-            <p class="mb-0">{{ comentario.texto }}</p>
-            <small class="text-muted">{{ comentario.fecha }}</small>
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay comentarios todavía.</p>
-{% endif %}
+<!-- lista de comentarios con boton de me gusta incluido -->
+{% include "gamerank/includes/comentarios_htmx.html" %}
 
 {% if user.is_authenticated %}
     <!-- Formulario para escribir un nuevo comentario -->

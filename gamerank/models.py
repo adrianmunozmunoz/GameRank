@@ -55,6 +55,17 @@ class Comentario(models.Model):
     def __str__(self):
         return f"Comentario de {self.usuario.username} en {self.juego.titulo}"
 
+class VotoComentario(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comentario = models.ForeignKey('Comentario', on_delete=models.CASCADE, related_name='votos')
+    tipo = models.CharField(max_length=10, choices=[('like', 'Me gusta'), ('dislike', 'No me gusta')])
+
+    class Meta:
+        unique_together = ('usuario', 'comentario')
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.tipo} a comentario {self.comentario.id}"
+
 
 class Valoracion(models.Model):
     """

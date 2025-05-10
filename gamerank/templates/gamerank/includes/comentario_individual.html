@@ -1,0 +1,27 @@
+<li class="list-group-item">
+    <p class="mb-1"><strong>{{ comentario.usuario.username }}</strong>:</p>
+    <p class="mb-0">{{ comentario.texto }}</p>
+    <small class="text-muted">{{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+
+    {% if user.is_authenticated %}
+    <form
+        hx-post="{% url 'votar_comentario_htmx' comentario.id %}"
+        hx-target="#comentario-{{ comentario.id }}"
+        hx-swap="outerHTML"
+        class="mt-2 d-flex gap-2"
+    >
+        {% csrf_token %}
+        <div id="comentario-{{ comentario.id }}">
+            <button type="submit" name="tipo" value="like"
+                class="btn btn-sm {% if comentario.voto_usuario and comentario.voto_usuario.tipo == 'like' %}btn-success{% else %}btn-outline-success{% endif %}">
+                <i class="fas fa-thumbs-up"></i> {{ comentario.num_likes }}
+            </button>
+
+            <button type="submit" name="tipo" value="dislike"
+                class="btn btn-sm {% if comentario.voto_usuario and comentario.voto_usuario.tipo == 'dislike' %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                <i class="fas fa-thumbs-down"></i> {{ comentario.num_dislikes }}
+            </button>
+        </div>
+    </form>
+    {% endif %}
+</li>

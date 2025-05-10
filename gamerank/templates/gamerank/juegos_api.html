@@ -1,0 +1,38 @@
+{% extends "gamerank/base.html" %}
+{% block content %}
+<h2 class="section-title">Juegos por plataforma (FreeToGame API)</h2>
+
+<form method="GET" class="mb-4">
+    <label for="plataforma" class="form-label">Selecciona una plataforma:</label>
+    <select name="plataforma" id="plataforma" class="form-select w-auto d-inline-block">
+        <option value="">-- Elige --</option>
+        <option value="pc" {% if plataforma == "pc" %}selected{% endif %}>PC</option>
+        <option value="browser" {% if plataforma == "browser" %}selected{% endif %}>Browser</option>
+        <option value="all" {% if plataforma == "all" %}selected{% endif %}>Todos</option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+</form>
+
+{% if juegos %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for juego in juegos %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ juego.thumbnail }}" class="card-img-top" alt="Imagen">
+                <div class="card-body">
+                    <h5 class="card-title">{{ juego.title }}</h5>
+                    <p class="card-text"><strong>Género:</strong> {{ juego.genre }}</p>
+                    <p class="card-text"><strong>Plataforma:</strong> {{ juego.platform }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="{{ juego.game_url }}" target="_blank" class="btn btn-outline-secondary btn-sm">Ver juego</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% elif plataforma %}
+    <p class="text-muted">No se encontraron juegos para esta plataforma.</p>
+{% endif %}
+
+{% endblock %}

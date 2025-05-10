@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.db.models import Avg
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.views.decorators.http import require_GET, require_POST
 
+import requests
 
-from .models import Juego, Comentario, Valoracion, Seguimiento, ConfiguracionUsuario
+from .models import Juego, Comentario, Valoracion, Seguimiento, ConfiguracionUsuario, VotoComentario
 
 
 def procesar_seguimiento(request, juegos, redireccion):
@@ -65,6 +67,11 @@ def detalle_juego(request, id_juego):
     # Obtener todos los comentarios del juego, ordenados del más reciente al más antiguo
     comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
 
+    # Por cada cometario obtener el número de likes y dislikes
+    for c in comentarios:
+        c.num_likes = c.votos.filter(tipo='like').count()
+        c.num_dislikes = c.votos.filter(tipo='dislike').count()
+
     # Inicializamos variables por si el usuario no está autenticado
     valoracion_usuario = None
     seguimiento_usuario = None
@@ -118,7 +125,6 @@ def detalle_juego(request, id_juego):
         "rango_votacion": range(1, 6),  # Para el formulario de votación (1–5)
     })
 
-
 @login_required
 def pagina_usuario(request):
     """
@@ -158,8 +164,6 @@ def pagina_usuario(request):
         'juegos_seguidos': juegos_seguidos,
         'comentarios_usuario': comentarios_usuario,
     })
-
-
 
 @login_required
 def juegos_votados(request):
@@ -235,7 +239,23 @@ def configuracion(request):
 
     return render(request, "gamerank/configuracion.html")
 
-from django.http import JsonResponse
+@login_required
+def votar_comentario(request, id_comentario):
+    """
+    Permite a un usuario dar 'me gusta' o 'no me gusta' a un comentario.
+    Actualiza el voto si ya había uno anterior.
+    """
+    comentario = get_object_or_404(Comentario, id=id_comentario)
+    tipo = request.POST.get("tipo")
+
+    if tipo in ['like', 'dislike']:
+        VotoComentario.objects.update_or_create(
+            usuario=request.user,
+            comentario=comentario,
+            defaults={'tipo': tipo}
+        )
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @require_GET
 def juego_json(request, id_juego):
@@ -263,9 +283,6 @@ def juego_json(request, id_juego):
 
     return JsonResponse(data)
 
-
-
-
 @login_required
 def detalle_juego_htmx(request, id_juego):
     """
@@ -275,13 +292,19 @@ def detalle_juego_htmx(request, id_juego):
     seguido = juego.seguimiento_set.filter(usuario=request.user).exists()
     valoracion_usuario = Valoracion.objects.filter(juego=juego, usuario=request.user).first()
 
+    # Cargar los comentarios para el bloque inicial
+    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
+    for c in comentarios:
+        c.num_likes = c.votos.filter(tipo='like').count()
+        c.num_dislikes = c.votos.filter(tipo='dislike').count()
+
     return render(request, "gamerank/detalle_juego_htmx.html", {
         "juego": juego,
         "seguido": seguido,
         "valoracion_usuario": valoracion_usuario,
         "rango_votacion": range(1, 6),
+        "comentarios": comentarios,
     })
-
 
 @require_GET
 @login_required
@@ -316,4 +339,44 @@ def publicar_comentario_htmx(request, id_juego):
     return render(request, "gamerank/includes/comentarios_htmx.html", {
         "comentarios": comentarios,
         "juego": juego
+    })
+
+@login_required
+def votar_comentario_htmx(request, id_comentario):
+    comentario = get_object_or_404(Comentario, id=id_comentario)
+    tipo = request.POST.get("tipo")
+
+    if tipo in ['like', 'dislike']:
+        VotoComentario.objects.update_or_create(
+            usuario=request.user,
+            comentario=comentario,
+            defaults={'tipo': tipo}
+        )
+
+    # Cálculo manual de contadores
+    comentario.num_likes = comentario.votos.filter(tipo='like').count()
+    comentario.num_dislikes = comentario.votos.filter(tipo='dislike').count()
+
+    # Detectar el voto actual del usuario
+    comentario.voto_usuario = VotoComentario.objects.filter(usuario=request.user, comentario=comentario).first()
+
+    html = render_to_string("gamerank/includes/comentario_individual.html", {"comentario": comentario, "user": request.user})
+    return HttpResponse(html)
+
+def juegos_api_freetogame(request):
+    plataforma = request.GET.get("plataforma", "")
+    juegos = []
+
+    if plataforma:
+        url = f"https://www.freetogame.com/api/games?platform={plataforma}"
+        try:
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                juegos = response.json()
+        except requests.RequestException:
+            pass  # Silenciosamente ignoramos fallos de red
+
+    return render(request, "gamerank/juegos_api.html", {
+        "plataforma": plataforma,
+        "juegos": juegos
     })
