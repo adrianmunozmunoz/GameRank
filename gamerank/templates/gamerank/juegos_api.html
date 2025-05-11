@@ -1,38 +1,55 @@
 {% extends "gamerank/base.html" %}
-{% block content %}
-<h2 class="section-title">Juegos por plataforma (FreeToGame API)</h2>
+{% load static %}
 
-<form method="GET" class="mb-4">
-    <label for="plataforma" class="form-label">Selecciona una plataforma:</label>
-    <select name="plataforma" id="plataforma" class="form-select w-auto d-inline-block">
-        <option value="">-- Elige --</option>
-        <option value="pc" {% if plataforma == "pc" %}selected{% endif %}>PC</option>
-        <option value="browser" {% if plataforma == "browser" %}selected{% endif %}>Browser</option>
-        <option value="all" {% if plataforma == "all" %}selected{% endif %}>Todos</option>
-    </select>
-    <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+{% block content %}
+
+<!-- Título principal -->
+<h2 class="section-title mb-4">Juegos desde la API FreeToGame</h2>
+
+<!-- FORMULARIO PARA FILTRAR POR PLATAFORMA -->
+<form method="get" class="mb-5">
+    <div class="row g-3 align-items-end">
+        <div class="col-auto">
+            <label for="plataforma" class="form-label">Filtrar por plataforma:</label>
+            <select name="plataforma" id="plataforma" class="form-select">
+                <option value="">-- Selecciona una plataforma --</option>
+                <option value="pc" {% if plataforma_seleccionada == "pc" %}selected{% endif %}>PC</option>
+                <option value="browser" {% if plataforma_seleccionada == "browser" %}selected{% endif %}>Browser</option>
+                <!-- Puedes añadir más opciones si lo deseas -->
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </div>
 </form>
 
+<!-- RESULTADOS DE JUEGOS (solo si hay alguno) -->
 {% if juegos %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for juego in juegos %}
-        <div class="col">
-            <div class="card h-100">
-                <img src="{{ juego.thumbnail }}" class="card-img-top" alt="Imagen">
-                <div class="card-body">
-                    <h5 class="card-title">{{ juego.title }}</h5>
-                    <p class="card-text"><strong>Género:</strong> {{ juego.genre }}</p>
-                    <p class="card-text"><strong>Plataforma:</strong> {{ juego.platform }}</p>
-                </div>
-                <div class="card-footer text-muted">
-                    <a href="{{ juego.game_url }}" target="_blank" class="btn btn-outline-secondary btn-sm">Ver juego</a>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    {% if juego.thumbnail %}
+                        <img src="{{ juego.thumbnail }}" class="card-img-top" alt="Imagen del juego">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ juego.title }}</h5>
+                        <p class="card-text"><strong>Género:</strong> {{ juego.genre }}</p>
+                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.platform }}</p>
+                        <p class="card-text"><strong>Desarrollador:</strong> {{ juego.developer }}</p>
+                        <p class="card-text small">{{ juego.short_description|truncatechars:120 }}</p>
+                    </div>
+                    <div class="card-footer text-end bg-white">
+                        <a href="{{ juego.game_url }}" target="_blank" class="btn btn-sm btn-outline-primary">Jugar</a>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
-{% elif plataforma %}
-    <p class="text-muted">No se encontraron juegos para esta plataforma.</p>
+{% elif plataforma_seleccionada %}
+    <!-- Si se ha filtrado pero no hay resultados -->
+    <p class="text-muted">No se encontraron juegos para la plataforma seleccionada.</p>
 {% endif %}
 
 {% endblock %}

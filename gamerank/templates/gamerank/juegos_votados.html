@@ -1,55 +1,60 @@
 {% extends "gamerank/base.html" %}
 
 {% block content %}
-<h2 class="section-title">Tus juegos votados</h2>
+<div class="container mt-4">
 
-{% if juegos %}
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    {% for juego in juegos %}
-    <div class="col">
-        <div class="card h-100 shadow-sm border-0">
+    <!-- Cabecera -->
+    <h2 class="section-title">Tus juegos votados</h2>
 
-            <!-- Imagen del juego si está disponible -->
-            {% if juego.imagen_miniatura %}
-                <img src="{{ juego.imagen_miniatura }}" class="card-img-top" alt="Imagen de {{ juego.titulo }}">
-            {% endif %}
+    {% if juegos %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for juego in juegos %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
 
-            <div class="card-body">
-                <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
-
-                <!-- Puntuación votada por el usuario -->
-                <p class="card-text mb-1"><strong>Tu puntuación:</strong> {{ juego.mi_voto }}/5</p>
-                {% include "gamerank/includes/estrellas.html" with puntuacion=juego.mi_voto %}
-            </div>
-
-            <div class="card-footer bg-white border-0 text-center">
-                <!-- Botón seguir/dejar de seguir -->
-                {% if user.is_authenticated %}
-                <form method="POST">
-                    {% csrf_token %}
-                    {% if juego.id_juego in seguidos_ids %}
-                        <button type="submit" name="Dejar_seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-danger me-2">
-                            Dejar de seguir
-                        </button>
-                    {% else %}
-                        <button type="submit" name="Seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-success me-2">
-                            Seguir
-                        </button>
-                    {% endif %}
-                </form>
+                <!-- Imagen del juego -->
+                {% if juego.imagen_miniatura %}
+                    <img src="{{ juego.imagen_miniatura }}" class="card-img-top" alt="Imagen de {{ juego.titulo }}">
                 {% endif %}
 
-                <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary mt-2">
-                    Ver detalles
-                </a>
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
+
+                    <!-- Voto del usuario -->
+                    <p class="card-text mb-1"><strong>Tu puntuación:</strong> {{ juego.mi_voto }}/5</p>
+                    {% include "gamerank/includes/estrellas.html" with puntuacion=juego.mi_voto %}
+                </div>
+
+                <div class="card-footer bg-white border-0 text-center">
+                    {% if user.is_authenticated %}
+                    <!-- Botón seguir/dejar de seguir -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if juego.id_juego in seguidos_ids %}
+                            <button type="submit" name="Dejar_seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-danger me-2">
+                                Dejar de seguir
+                            </button>
+                        {% else %}
+                            <button type="submit" name="Seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-success me-2">
+                                Seguir
+                            </button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
+                    <!-- Enlace a detalle -->
+                    <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary mt-2">
+                        Ver detalles
+                    </a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-{% else %}
-    <p>No has votado ningún juego todavía.</p>
-{% endif %}
+    {% else %}
+        <p class="text-muted mt-4">No has votado ningún juego todavía.</p>
+    {% endif %}
 
-<a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← Volver a tu perfil</a>
+    <!-- Enlace volver -->
+    <a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← Volver a tu perfil</a>
+</div>
 {% endblock %}

@@ -1,67 +1,86 @@
 {% extends 'gamerank/base.html' %}
 {% block content %}
 <div class="container mt-5">
+
+    <!-- Cabecera principal -->
     <h2>Página de usuario</h2>
     <p>Alias: <strong>{{ user_alias }}</strong></p>
 
     <!-- RESUMEN ESTADÍSTICO DEL USUARIO -->
-    <ul class="list-group list-group-flush mb-4">
-        <li class="list-group-item">Total de votaciones realizadas: {{ num_votaciones }}</li>
-        <li class="list-group-item">Puntuación media de tus votaciones: {% if media_usuario %}{{ media_usuario }}{% else %}<span class="text-muted">N/A</span>{% endif %}</li>
-        <li class="list-group-item">Total de comentarios realizados: {{ num_comentarios_usuario }}</li>
-        <li class="list-group-item">Total de juegos en la plataforma: {{ total_juegos }}</li>
-        <li class="list-group-item">Total de comentarios publicados: {{ total_comentarios }}</li>
-    </ul>
+    <div class="card mb-4">
+        <div class="card-header">Resumen estadístico</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Total de votaciones realizadas: {{ num_votaciones }}</li>
+            <li class="list-group-item">
+                Puntuación media de tus votaciones:
+                {% if media_usuario %}
+                    {{ media_usuario }}
+                {% else %}
+                    <span class="text-muted">N/A</span>
+                {% endif %}
+            </li>
+            <li class="list-group-item">Total de comentarios realizados: {{ num_comentarios_usuario }}</li>
+            <li class="list-group-item">Total de juegos en la plataforma: {{ total_juegos }}</li>
+            <li class="list-group-item">Total de comentarios publicados: {{ total_comentarios }}</li>
+        </ul>
+    </div>
 
     <!-- BOTONES DE ACCESO RÁPIDO A OTRAS SECCIONES -->
-    <div class="mb-5">
+    <div class="mb-5 d-flex gap-2">
         <a href="{% url 'juegos_votados' %}" class="btn btn-primary">Ver juegos votados</a>
         <a href="{% url 'juegos_seguidos' %}" class="btn btn-success">Ver juegos seguidos</a>
     </div>
 
     <!-- LISTADO DE JUEGOS VOTADOS CON LA PUNTUACIÓN DEL USUARIO -->
-    <h4 class="mt-5">Juegos votados</h4>
-    {% if juegos_votados %}
-        <ul class="list-group">
-            {% for juego, voto in juegos_votados %}
-                <li class="list-group-item d-flex justify-content-between">
-                    <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
-                    <span class="badge bg-info text-dark">Voto: {{ voto }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-muted">No has votado ningún juego todavía.</p>
-    {% endif %}
+    <div class="card mb-5">
+        <div class="card-header">Juegos votados</div>
+        {% if juegos_votados %}
+            <ul class="list-group list-group-flush">
+                {% for juego, voto in juegos_votados %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
+                        <span class="badge bg-info text-dark">Voto: {{ voto }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="card-body text-muted">No has votado ningún juego todavía.</div>
+        {% endif %}
+    </div>
 
     <!-- LISTADO DE JUEGOS SEGUIDOS -->
-    <h4 class="mt-5">Juegos seguidos</h4>
-    {% if juegos_seguidos %}
-        <ul class="list-group">
-            {% for juego in juegos_seguidos %}
-                <li class="list-group-item">
-                    <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-muted">No estás siguiendo ningún juego todavía.</p>
-    {% endif %}
+    <div class="card mb-5">
+        <div class="card-header">Juegos seguidos</div>
+        {% if juegos_seguidos %}
+            <ul class="list-group list-group-flush">
+                {% for juego in juegos_seguidos %}
+                    <li class="list-group-item">
+                        <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="card-body text-muted">No estás siguiendo ningún juego todavía.</div>
+        {% endif %}
+    </div>
 
     <!-- COMENTARIOS REALIZADOS POR EL USUARIO -->
-    <h4 class="mt-5">Comentarios realizados</h4>
-    {% if comentarios_usuario %}
-        <ul class="list-group">
-            {% for comentario in comentarios_usuario %}
-                <li class="list-group-item">
-                    <strong>Juego:</strong> {{ comentario.juego.titulo }}<br>
-                    {{ comentario.texto }}<br>
-                    <small class="text-muted">Publicado el {{ comentario.fecha|date:"d/m/Y H:i" }}</small>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-muted">No has escrito ningún comentario todavía.</p>
-    {% endif %}
+    <div class="card mb-5">
+        <div class="card-header">Comentarios realizados</div>
+        {% if comentarios_usuario %}
+            <ul class="list-group list-group-flush">
+                {% for comentario in comentarios_usuario %}
+                    <li class="list-group-item">
+                        <strong>Juego:</strong> {{ comentario.juego.titulo }}<br>
+                        {{ comentario.texto }}<br>
+                        <small class="text-muted">Publicado el {{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="card-body text-muted">No has escrito ningún comentario todavía.</div>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock %}

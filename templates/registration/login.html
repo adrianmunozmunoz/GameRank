@@ -1,15 +1,20 @@
+<!-- Formulario de inicio de sesión con plantilla extendida -->
 {% extends "gamerank/base.html" %}
 
 {% block content %}
 <div class="container w-50 mt-5">
+
+    <!-- Título -->
     <h2 class="mb-4 text-center">Iniciar sesión</h2>
 
+    <!-- Bloque de errores si login falla -->
     {% if form.errors %}
         <div class="alert alert-danger">
             <strong>¡Error!</strong> Nombre de usuario o contraseña incorrectos.
         </div>
     {% endif %}
 
+    <!-- Formulario de autenticación -->
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
@@ -25,6 +30,7 @@
         </div>
     </form>
 
+    <!-- Enlace para volver a inicio -->
     <div class="text-center mt-3">
         <a href="{% url 'inicio' %}" class="btn btn-link">← Volver a la página principal</a>
     </div>

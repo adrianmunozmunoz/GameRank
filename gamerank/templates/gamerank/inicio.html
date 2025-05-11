@@ -2,26 +2,30 @@
 
 {% block content %}
 
-<!-- TÍTULO DE LA PÁGINA PRINCIPAL -->
+<!-- Título visible en la parte superior de la página principal -->
 <h2 class="section-title">Juegos mejor valorados</h2>
 
-<!-- FORMULARIO para seguir/dejar de seguir juegos -->
+<!-- Formulario que recoge los botones de seguir/dejar de seguir -->
 <form method="POST">
     {% csrf_token %}
 
+    <!-- Grid responsive con tarjetas de juegos -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for juego in juegos %}
         <div class="col">
             <div class="card h-100 shadow-sm border-0">
-
+                <!-- Imagen del juego (opcional) -->
                 {% if juego.imagen_miniatura %}
                     <img src="{{ juego.imagen_miniatura }}" class="card-img-top rounded-top" alt="Imagen de {{ juego.titulo }}">
                 {% endif %}
 
                 <div class="card-body">
+                    <!-- Información básica del juego -->
                     <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
                     <p class="card-text mb-1"><strong>Género:</strong> {{ juego.genero }}</p>
                     <p class="card-text mb-1"><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
+
+                    <!-- Puntuación media con estrellas o N/A si no hay votos -->
                     <p class="card-text mb-1">
                         <strong>Puntuación:</strong>
                         {% if juego.puntuacion_media %}
@@ -31,9 +35,12 @@
                             <span class="text-muted">N/A</span>
                         {% endif %}
                     </p>
+
+                    <!-- Número de votos -->
                     <p class="card-text"><strong>Votos:</strong> {{ juego.total_votos }}</p>
                 </div>
 
+                <!-- Botones de acción (ver detalles / seguir o dejar de seguir) -->
                 <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
                     <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary">
                         Ver detalles

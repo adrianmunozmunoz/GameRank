@@ -1,10 +1,15 @@
+<!-- Página de confirmación tras cerrar sesión -->
 {% extends "gamerank/base.html" %}
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 60vh;">
     <div class="card shadow p-4 text-center" style="max-width: 500px; width: 100%;">
+
+        <!-- Mensaje principal -->
         <h2 class="mb-3">Has cerrado sesión correctamente</h2>
         <p>Gracias por usar <strong>GameRank</strong>.</p>
+
+        <!-- Botones de navegación -->
         <a href="{% url 'login' %}" class="btn btn-outline-primary mt-3">
             Iniciar sesión de nuevo
         </a>

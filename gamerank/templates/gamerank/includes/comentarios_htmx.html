@@ -1,9 +1,10 @@
-<ul class="list-group">
+<!-- Lista de comentarios renderizados como tarjetas -->
+<ul class="list-group list-group-flush">
     {% for comentario in comentarios %}
-        <div id="comentario-{{ comentario.id }}">
-            {% include "gamerank/includes/comentario_individual.html" %}
-        </div>
+        <!-- Cada comentario es un <li> con estilo de tarjeta, definido en el include -->
+        {% include "gamerank/includes/comentario_individual.html" %}
     {% empty %}
-        <li class="list-group-item text-muted">Todavía no hay comentarios.</li>
+        <!-- Mensaje cuando no hay comentarios -->
+        <li class="list-group-item text-muted text-center">Todavía no hay comentarios.</li>
     {% endfor %}
 </ul>

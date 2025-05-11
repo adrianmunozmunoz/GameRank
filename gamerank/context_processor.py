@@ -14,7 +14,7 @@ def user_alias(request):
 
 def metricas_footer(request):
     """
-    Devuelve métricas globales y del usuario para mostrarlas en el pie de página.
+    Devuelve Juegos/comentarios totales + votos/comentarios del usuario
     """
     context = {
         'total_juegos': Juego.objects.count(),
@@ -31,9 +31,13 @@ def metricas_footer(request):
 
 def configuracion_usuario(request):
     """
-    Devuelve la configuración visual del usuario autenticado.
+    Sirve para cargar el estilo visual personalizado del usuario en todas las plantillas.
+    Evita tener que pasar esa info manualmente desde cada vista.
     """
     if request.user.is_authenticated:
-        config, _ = ConfiguracionUsuario.objects.get_or_create(usuario=request.user)
+        try:
+            config = ConfiguracionUsuario.objects.get(usuario=request.user)
+        except ConfiguracionUsuario.DoesNotExist:
+            config = None
         return {'config': config}
     return {'config': None}

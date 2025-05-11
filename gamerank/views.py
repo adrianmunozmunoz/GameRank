@@ -1,15 +1,16 @@
+import os
+import json
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.db.models import Avg
-from django.http import JsonResponse, Http404, HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_GET, require_POST
-
 import requests
 
+from gamerankproject import settings
 from .models import Juego, Comentario, Valoracion, Seguimiento, ConfiguracionUsuario, VotoComentario
-
 
 def procesar_seguimiento(request, juegos, redireccion):
     """
@@ -69,8 +70,8 @@ def detalle_juego(request, id_juego):
 
     # Por cada cometario obtener el número de likes y dislikes
     for c in comentarios:
-        c.num_likes = c.votos.filter(tipo='like').count()
-        c.num_dislikes = c.votos.filter(tipo='dislike').count()
+        c.num_likes = c.num_likes()
+        c.num_dislikes = c.num_dislikes()
 
     # Inicializamos variables por si el usuario no está autenticado
     valoracion_usuario = None
@@ -343,6 +344,11 @@ def publicar_comentario_htmx(request, id_juego):
 
 @login_required
 def votar_comentario_htmx(request, id_comentario):
+    """
+    Permite votar un comentario de forma dinámica con HTMX.
+    Registra 'me gusta' o 'no me gusta' del usuario actual, actualiza contadores
+    y devuelve el HTML del comentario actualizado para reemplazarlo en la página.
+    """
     comentario = get_object_or_404(Comentario, id=id_comentario)
     tipo = request.POST.get("tipo")
 
@@ -354,8 +360,8 @@ def votar_comentario_htmx(request, id_comentario):
         )
 
     # Cálculo manual de contadores
-    comentario.num_likes = comentario.votos.filter(tipo='like').count()
-    comentario.num_dislikes = comentario.votos.filter(tipo='dislike').count()
+    comentario.num_likes = comentario.num_likes()
+    comentario.num_dislikes = comentario.num_dislikes()
 
     # Detectar el voto actual del usuario
     comentario.voto_usuario = VotoComentario.objects.filter(usuario=request.user, comentario=comentario).first()
@@ -364,19 +370,36 @@ def votar_comentario_htmx(request, id_comentario):
     return HttpResponse(html)
 
 def juegos_api_freetogame(request):
-    plataforma = request.GET.get("plataforma", "")
+    """
+    Muestra un formulario para seleccionar plataforma.
+    Solo muestra los juegos si se ha enviado un filtro ?plataforma=...
+    """
     juegos = []
+    plataforma_filtro = request.GET.get("plataforma", "").lower().strip()
 
-    if plataforma:
-        url = f"https://www.freetogame.com/api/games?platform={plataforma}"
-        try:
-            response = requests.get(url, timeout=5)
-            if response.status_code == 200:
+    if plataforma_filtro:
+        if settings.DEBUG:
+            # En local, descarga desde la API
+            try:
+                response = requests.get("https://www.freetogame.com/api/games", timeout=10)
+                response.raise_for_status()
                 juegos = response.json()
-        except requests.RequestException:
-            pass  # Silenciosamente ignoramos fallos de red
+            except Exception as e:
+                print("❌ Error al conectar con la API de FreeToGame:", e)
+        else:
+            # En producción, carga desde archivo JSON
+            try:
+                ruta_json = os.path.join(settings.BASE_DIR, "data", "juegos_freetogame_backup.json")
+                with open(ruta_json, "r", encoding="utf-8") as f:
+                    juegos = json.load(f)
+            except Exception as e:
+                print("❌ Error al leer el archivo JSON:", e)
+
+        # Aplica el filtro solo si hay datos
+        juegos = [j for j in juegos if plataforma_filtro in j.get("platform", "").lower()]
 
     return render(request, "gamerank/juegos_api.html", {
-        "plataforma": plataforma,
-        "juegos": juegos
+        "juegos": juegos,
+        "plataforma_seleccionada": plataforma_filtro
     })
+

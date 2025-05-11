@@ -1,16 +1,22 @@
 {% extends "gamerank/base.html" %}
 
 {% block content %}
+
+<!-- Título principal -->
 <section class="section-title">❓ Centro de Ayuda</section>
 
+<!-- Contenido centrado en columna ancha -->
 <div class="row justify-content-center">
     <div class="col-md-8">
+        <!-- Tarjeta de ayuda -->
         <div class="card shadow-sm border-0 p-4">
 
+            <!-- Introducción -->
             <p class="lead">Bienvenido a <strong>GameRank</strong>, tu plataforma para explorar, valorar y seguir videojuegos.</p>
 
             <hr>
 
+            <!-- Sección de funcionalidades -->
             <h4><i class="fas fa-gamepad"></i> ¿Qué puedes hacer en GameRank?</h4>
             <ul class="list-unstyled ps-3">
                 <li><i class="fas fa-search text-success me-2"></i> Explorar juegos mejor valorados.</li>
@@ -23,6 +29,7 @@
 
             <hr>
 
+            <!-- Inicio de sesión -->
             <h4><i class="fas fa-lock"></i> ¿Cómo iniciar sesión?</h4>
             <p>
                 Usa el botón <strong>Entrar</strong> en el menú. Si no tienes cuenta, pídele a tu profesor que te cree una desde <code>/admin/</code>.
@@ -30,6 +37,7 @@
 
             <hr>
 
+            <!-- Créditos -->
             <h4><i class="fas fa-users"></i> Créditos</h4>
             <ul class="list-unstyled">
                 <li><strong>Desarrollador:</strong> Adrián Muñoz</li>
@@ -37,6 +45,7 @@
                 <li><strong>Curso:</strong> Servicios y Aplicaciones Telemáticas — URJC 2024–2025</li>
             </ul>
 
+            <!-- Botón de volver -->
             <div class="text-end mt-3">
                 <a href="{% url 'inicio' %}" class="btn btn-outline-primary">← Volver al inicio</a>
             </div>
@@ -44,4 +53,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

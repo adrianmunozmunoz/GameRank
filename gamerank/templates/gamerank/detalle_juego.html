@@ -3,23 +3,22 @@
 {% block content %}
 <h2 class="section-title">{{ juego.titulo }}</h2>
 
+<!-- Formulario para seguir o dejar de seguir el juego -->
 {% if user.is_authenticated %}
-    <!-- Formulario para seguir o dejar de seguir el juego -->
     <form method="POST" class="mb-4">
         {% csrf_token %}
         {% if seguimiento_usuario %}
-            <!-- Si el usuario ya sigue el juego -->
             <button type="submit" name="dejar_seguir" class="btn btn-outline-danger btn-sm">Dejar de seguir</button>
         {% else %}
-            <!-- Si aún no sigue el juego -->
             <button type="submit" name="seguir" class="btn btn-outline-success btn-sm">Seguir</button>
         {% endif %}
     </form>
 {% endif %}
 
+<!-- Fila con dos columnas: descripción a la izquierda, imagen a la derecha -->
 <div class="row mb-5">
     <div class="col-md-8">
-        <!-- Información básica del juego -->
+        <!-- Información textual del juego -->
         <p><strong>Género:</strong> {{ juego.genero }}</p>
         <p><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
         <p><strong>Desarrollador:</strong> {{ juego.desarrollador }}</p>
@@ -27,11 +26,13 @@
         <p><strong>Fecha de lanzamiento:</strong> {{ juego.fecha_lanzamiento }}</p>
         <p><strong>Descripción:</strong> {{ juego.descripcion_corta }}</p>
         {% if juego.url_juego %}
+            <!-- Enlace externo para jugar (opcional) -->
             <a href="{{ juego.url_juego }}" target="_blank" class="btn btn-primary">Jugar</a>
         {% endif %}
     </div>
     <div class="col-md-4">
         {% if juego.imagen_miniatura %}
+            <!-- Imagen del juego -->
             <img src="{{ juego.imagen_miniatura }}" class="img-fluid rounded" alt="Imagen del juego">
         {% endif %}
     </div>
@@ -39,10 +40,9 @@
 
 <!-- VALORACIÓN DEL USUARIO -->
 <h3 class="mt-5">Tu valoración</h3>
-
 {% if user.is_authenticated %}
     {% if valoracion_usuario %}
-        <!-- Si ya ha votado el juego -->
+        <!-- Mostrar estrellas si ya ha votado -->
         <p>
             Ya has puntuado este juego con:
             {% include "gamerank/includes/estrellas.html" with puntuacion=valoracion_usuario.voto %}
@@ -50,7 +50,7 @@
         </p>
 
     {% else %}
-        <!-- Formulario de votación -->
+        <!-- Formulario para votar el juego -->
         <form method="POST" class="mb-4">
             {% csrf_token %}
             <label for="votoSelect" class="form-label">Selecciona una puntuación:</label>
@@ -64,19 +64,13 @@
         </form>
     {% endif %}
 {% else %}
-    <!-- Si el usuario no está autenticado -->
     <p><a href="/login/">Inicia sesión</a> para votar este juego.</p>
 {% endif %}
 
-<hr class="my-5">
+<hr class="my-4">
 
-<!-- COMENTARIOS -->
-<h3>Comentarios</h3>
-<!-- lista de comentarios con boton de me gusta incluido -->
-{% include "gamerank/includes/comentarios_htmx.html" %}
-
+<!-- FORMULARIO PARA PUBLICAR UN NUEVO COMENTARIO -->
 {% if user.is_authenticated %}
-    <!-- Formulario para escribir un nuevo comentario -->
     <form method="POST" class="mt-4">
         {% csrf_token %}
         <div class="mb-3">
@@ -89,10 +83,16 @@
     <p><a href="/login/">Inicia sesión</a> para comentar este juego.</p>
 {% endif %}
 
-<!-- BOTÓN VOLVER -->
+<hr class="my-4">
+
+<!-- COMENTARIOS DEL JUEGO -->
+<h3>Comentarios</h3>
+{% include "gamerank/includes/comentarios_htmx.html" %}
+
+<!-- BOTÓN PARA VOLVER A LA PÁGINA PRINCIPAL -->
 <a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver</a>
 
-<!-- ENLACE A VERSIÓN HTMX -->
+<!-- ENLACE A LA VERSIÓN DINÁMICA DEL DETALLE (HTMX) -->
 <div class="mt-3">
     <a href="{% url 'detalle_juego_htmx' juego.id_juego %}" class="btn btn-outline-secondary btn-sm">
         Ver esta ficha en modo dinámico (HTMX)

@@ -50,10 +50,16 @@ class Comentario(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-fecha'] # De más nuevos a más antiguos
+        ordering = ['-fecha']
 
     def __str__(self):
         return f"Comentario de {self.usuario.username} en {self.juego.titulo}"
+
+    def num_likes(self):
+        return self.votos.filter(tipo='like').count()
+
+    def num_dislikes(self):
+        return self.votos.filter(tipo='dislike').count()
 
 class VotoComentario(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

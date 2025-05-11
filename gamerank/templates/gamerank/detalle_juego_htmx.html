@@ -1,9 +1,10 @@
 {% extends "gamerank/base.html" %}
 {% block content %}
 
+<!-- Título principal de la ficha en modo dinámico -->
 <h2 class="section-title">{{ juego.titulo }} (modo dinámico)</h2>
 
-<!-- BOTÓN SEGUIR / DEJAR DE SEGUIR -->
+<!-- BOTÓN PARA SEGUIR / DEJAR DE SEGUIR (formulario clásico con POST tradicional) -->
 <form method="POST" action="{% url 'detalle_juego' juego.id_juego %}" class="mb-4">
     {% csrf_token %}
     {% if seguido %}
@@ -13,7 +14,7 @@
     {% endif %}
 </form>
 
-<!-- INFORMACIÓN DEL JUEGO -->
+<!-- INFORMACIÓN DETALLADA DEL JUEGO EN DOS COLUMNAS -->
 <div class="row mb-5">
     <div class="col-md-8">
         <p><strong>Género:</strong> {{ juego.genero }}</p>
@@ -35,13 +36,16 @@
 
 <!-- VALORACIÓN DEL USUARIO -->
 <h3 class="mt-5">Tu valoración</h3>
+
 {% if valoracion_usuario %}
+    <!-- Si el usuario ya ha votado, se muestran las estrellas -->
     <p>
         Ya has puntuado este juego con:
         {% include "gamerank/includes/estrellas.html" with puntuacion=valoracion_usuario.voto %}
         <small>({{ valoracion_usuario.voto }}/5)</small>
     </p>
 {% else %}
+    <!-- Formulario clásico para votar -->
     <form method="POST" action="{% url 'detalle_juego' juego.id_juego %}" class="mb-4">
         {% csrf_token %}
         <label for="votoSelect" class="form-label">Selecciona una puntuación:</label>
@@ -57,38 +61,48 @@
 
 <hr class="my-5">
 
-<!-- FORMULARIO DE COMENTARIO (HTMX POST) -->
-<h3>Escribe un comentario</h3>
-<form
-    id="form-comentario"
-    hx-post="{% url 'publicar_comentario_htmx' juego.id_juego %}"
-    hx-target="#content_htmx"
-    hx-swap="innerHTML"
-    hx-on="htmx:afterRequest: this.reset()"
-    class="mb-4"
->
-    {% csrf_token %}
-    <div class="mb-3">
-        <textarea name="texto_comentario" class="form-control" rows="3" required></textarea>
+<!-- FORMULARIO HTMX PARA COMENTAR (SEPARADO DEL BLOQUE DE COMENTARIOS) -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Escribe un comentario</h5>
+
+        <!-- Este formulario envía un nuevo comentario y lo inserta justo antes del contenedor #nuevo-comentario -->
+        <form
+            id="form-comentario"
+            hx-post="{% url 'publicar_comentario_htmx' juego.id_juego %}"
+            hx-target="#nuevo-comentario"
+            hx-swap="beforebegin"
+            hx-on="htmx:afterRequest: this.reset()"
+        >
+            {% csrf_token %}
+            <div class="mb-3">
+                <textarea name="texto_comentario" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Publicar</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Publicar</button>
-</form>
+</div>
 
-<hr>
+<!-- CONTENEDOR DE REFERENCIA PARA INSERTAR NUEVOS COMENTARIOS -->
+<div id="nuevo-comentario"></div>
 
-<!-- COMENTARIOS CON ACTUALIZACIÓN AUTOMÁTICA -->
+<!-- COMENTARIOS CARGADOS Y ACTUALIZADOS CON HTMX CADA 30 SEGUNDOS -->
 <h3>Comentarios recientes</h3>
+
+<!-- HTMX hace una petición cada 30 segundos y actualiza el bloque de comentarios -->
 <div
     hx-get="{% url 'comentarios_htmx' juego.id_juego %}"
-    hx-trigger="load, change, every 30s"
-    hx-target="#content_htmx"
+    hx-trigger="load, every 30s"
+    hx-target="#lista-comentarios"
     hx-swap="innerHTML"
 ></div>
-<div id="content_htmx">
+
+<!-- BLOQUE DESTINO DONDE SE CARGAN LOS COMENTARIOS -->
+<div id="lista-comentarios">
     {% include "gamerank/includes/comentarios_htmx.html" %}
 </div>
 
-<!-- BOTONES FINALES -->
+<!-- BOTÓN VOLVER Y ENLACE A LA VERSIÓN TRADICIONAL -->
 <a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver</a>
 
 <div class="mt-3">
