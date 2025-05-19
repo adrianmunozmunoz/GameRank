@@ -1,5 +1,7 @@
 import os
 import json
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -7,50 +9,35 @@ from django.utils import timezone
 from django.db.models import Avg
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_GET, require_POST
-import requests
-
+from .utils import procesar_seguimiento, obtener_juegos_seguidos_ids, comentarios_con_votos
 from gamerankproject import settings
 from .models import Juego, Comentario, Valoracion, Seguimiento, ConfiguracionUsuario, VotoComentario
 
-def procesar_seguimiento(request, juegos, redireccion):
-    """
-    Procesa los formularios de seguir/dejar de seguir juegos.
-    Si se ha pulsado algún botón, realiza el cambio en la base de datos y redirige.
-    No devuelve nada. La vista que lo llama debe encargarse de recalcular los datos tras el POST.
-    """
-    if request.method == 'POST':
-        # Conjunto de IDs de juegos que el usuario ya sigue
-        seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
+import requests
 
-        for juego in juegos:
-            seguir_key = f"Seguir_{juego.id_juego}"
-            dejar_seguir_key = f"Dejar_seguir_{juego.id_juego}"
-
-            if seguir_key in request.POST and juego.id_juego not in seguidos_ids:
-                Seguimiento.objects.create(usuario=request.user, juego=juego)
-                return redirect(redireccion)
-
-            if dejar_seguir_key in request.POST and juego.id_juego in seguidos_ids:
-                Seguimiento.objects.filter(usuario=request.user, juego=juego).delete()
-                return redirect(redireccion)
 
 def inicio(request):
     """
-    Página principal que muestra los juegos ordenados por puntuación media.
-    Si se hace POST desde botones seguir/dejar de seguir, se procesa y se redirige.
-    Luego se calcula seguidos_ids y se marca cada juego como seguido o no.
+    Página principal que muestra los juegos ordenados por puntuación media (descendente).
+    Si se hace POST desde los botones de seguir/dejar de seguir, se procesa y redirige.
+    Si el usuario está autenticado, se marca cuáles sigue actualmente.
     """
     juegos = list(Juego.objects.all())
     juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
 
+    seguidos_ids = set()
+
     if request.user.is_authenticated:
-        procesar_seguimiento(request, juegos, 'inicio')
-        # Recalcular seguidos tras posibles cambios
-        seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
-        for j in juegos:
-            j.seguido = j.id_juego in seguidos_ids
-    else:
-        seguidos_ids = set()
+        # Procesar acción de seguimiento si hay POST
+        respuesta = procesar_seguimiento(request, juegos, "inicio")
+        if respuesta:
+            return respuesta
+
+        # Recuperar juegos seguidos para marcar botones activos
+        seguidos_ids = obtener_juegos_seguidos_ids(request.user)
+
+        for juego in juegos:
+            juego.seguido = juego.id_juego in seguidos_ids
 
     return render(request, 'gamerank/inicio.html', {
         'juegos': juegos,
@@ -65,13 +52,8 @@ def detalle_juego(request, id_juego):
     # Buscar el juego por su ID o lanzar error 404 si no existe
     juego = get_object_or_404(Juego, id_juego=id_juego)
 
-    # Obtener todos los comentarios del juego, ordenados del más reciente al más antiguo
-    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
-
-    # Por cada cometario obtener el número de likes y dislikes
-    for c in comentarios:
-        c.num_likes = c.num_likes()
-        c.num_dislikes = c.num_dislikes()
+    # Carga los comentarios del juego con los contadores de likes y dislikes ya calculados
+    comentarios = comentarios_con_votos(juego)
 
     # Inicializamos variables por si el usuario no está autenticado
     valoracion_usuario = None
@@ -86,21 +68,21 @@ def detalle_juego(request, id_juego):
 
         if request.method == "POST":
             # 1. Añadir un comentario
-            if "texto_comentario" in request.POST:
-                texto = request.POST.get("texto_comentario", "").strip()
-                if texto:
-                    Comentario.objects.create(
-                        juego=juego,
-                        usuario=request.user,
-                        texto=texto,
-                        fecha=timezone.now()
-                    )
-                    return redirect("detalle_juego", id_juego=id_juego)
+            texto = request.POST.get("texto_comentario", "").strip()
+            if texto:
+                Comentario.objects.create(
+                    juego=juego,
+                    usuario=request.user,
+                    texto=texto,
+                    fecha=timezone.now()
+                )
+                return redirect("detalle_juego", id_juego=id_juego)
 
             # 2. Votar (solo si no ha votado antes)
-            elif "voto" in request.POST and not valoracion_usuario:
+            voto = request.POST.get("voto")
+            if voto and not valoracion_usuario:
                 try:
-                    valor = int(request.POST.get("voto"))
+                    valor = int(voto)
                     if 0 <= valor <= 5:
                         Valoracion.objects.create(juego=juego, usuario=request.user, voto=valor)
                         return redirect("detalle_juego", id_juego=id_juego)
@@ -108,12 +90,12 @@ def detalle_juego(request, id_juego):
                     pass  # Ignorar votos inválidos
 
             # 3. Seguir el juego
-            elif "seguir" in request.POST and not seguimiento_usuario:
+            if "seguir" in request.POST and not seguimiento_usuario:
                 Seguimiento.objects.create(juego=juego, usuario=request.user)
                 return redirect("detalle_juego", id_juego=id_juego)
 
             # 4. Dejar de seguir el juego
-            elif "dejar_seguir" in request.POST and seguimiento_usuario:
+            if "dejar_seguir" in request.POST and seguimiento_usuario:
                 seguimiento_usuario.delete()
                 return redirect("detalle_juego", id_juego=id_juego)
 
@@ -123,7 +105,7 @@ def detalle_juego(request, id_juego):
         "comentarios": comentarios,
         "valoracion_usuario": valoracion_usuario,
         "seguimiento_usuario": seguimiento_usuario,
-        "rango_votacion": range(1, 6),  # Para el formulario de votación (1–5)
+        "rango_votacion": range(1, 6),
     })
 
 @login_required
@@ -178,15 +160,19 @@ def juegos_votados(request):
     for v in valoraciones:
         juego = v.juego
         juego.mi_voto = v.voto
+        juego.puntuacion = juego.puntuacion_media()
+        juego.total_votos = juego.total_votos()
         juegos.append(juego)
 
     juegos.sort(key=lambda j: j.mi_voto, reverse=True)
 
-    # Procesar seguimiento y redirigir si es necesario
-    procesar_seguimiento(request, juegos, 'juegos_votados')
+    # Procesar acción de seguimiento si hay POST
+    respuesta = procesar_seguimiento(request, juegos, "inicio")
+    if respuesta:
+        return respuesta
 
-    # Recalcular juegos seguidos tras el POST
-    seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
+    # Recuperar juegos seguidos para marcar botones activos
+    seguidos_ids = obtener_juegos_seguidos_ids(request.user)
 
     return render(request, 'gamerank/juegos_votados.html', {
         'juegos': juegos,
@@ -196,28 +182,25 @@ def juegos_votados(request):
 @login_required
 def juegos_seguidos(request):
     """
-    Muestra los juegos que el usuario sigue.
-    Se permite dejar de seguir directamente desde esta vista.
+    Muestra los juegos que el usuario sigue, ordenados por puntuación media.
+    Permite dejar de seguir juegos directamente desde esta vista.
     """
-    # Obtener los juegos seguidos antes del posible POST
     seguimientos = Seguimiento.objects.filter(usuario=request.user).select_related('juego')
     juegos = [s.juego for s in seguimientos]
     juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
 
-    # Procesar cambios y redirigir si corresponde
-    procesar_seguimiento(request, juegos, 'juegos_seguidos')
+    # Procesar acción de seguimiento si hay POST
+    respuesta = procesar_seguimiento(request, juegos, "juegos_seguidos")
+    if respuesta:
+        return respuesta  # Ojo: nada más debe ir aquí
 
-    # Recalcular tras POST para evitar necesidad de doble recarga
-    seguimientos = Seguimiento.objects.filter(usuario=request.user).select_related('juego')
-    juegos = [s.juego for s in seguimientos]
-    juegos.sort(key=lambda j: j.puntuacion_media() or 0, reverse=True)
-    seguidos_ids = set(Seguimiento.objects.filter(usuario=request.user).values_list('juego_id', flat=True))
+    # Recuperar juegos seguidos para marcar botones activos
+    seguidos_ids = obtener_juegos_seguidos_ids(request.user)
 
     return render(request, 'gamerank/juegos_seguidos.html', {
         'juegos': juegos,
         'seguidos_ids': seguidos_ids,
     })
-
 
 @login_required
 def configuracion(request):
@@ -236,6 +219,7 @@ def configuracion(request):
         config.tamano_texto = tamano_texto
         config.save()
 
+        messages.success(request, "Tu configuración se ha actualizado correctamente.")
         return redirect("configuracion")
 
     return render(request, "gamerank/configuracion.html")
@@ -293,11 +277,8 @@ def detalle_juego_htmx(request, id_juego):
     seguido = juego.seguimiento_set.filter(usuario=request.user).exists()
     valoracion_usuario = Valoracion.objects.filter(juego=juego, usuario=request.user).first()
 
-    # Cargar los comentarios para el bloque inicial
-    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
-    for c in comentarios:
-        c.num_likes = c.votos.filter(tipo='like').count()
-        c.num_dislikes = c.votos.filter(tipo='dislike').count()
+    # Carga los comentarios del juego con los contadores de likes y dislikes ya calculados
+    comentarios = comentarios_con_votos(juego)
 
     return render(request, "gamerank/detalle_juego_htmx.html", {
         "juego": juego,
@@ -314,7 +295,7 @@ def comentarios_htmx(request, id_juego):
     Devuelve solo los comentarios del juego en HTML para HTMX.
     """
     juego = get_object_or_404(Juego, id_juego=id_juego)
-    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
+    comentarios = comentarios_con_votos(juego)
     return render(request, "gamerank/includes/comentarios_htmx.html", {
         "comentarios": comentarios
     })
@@ -336,7 +317,7 @@ def publicar_comentario_htmx(request, id_juego):
             fecha=timezone.now()
         )
 
-    comentarios = Comentario.objects.filter(juego=juego).order_by('-fecha')
+    comentarios = comentarios_con_votos(juego)
     return render(request, "gamerank/includes/comentarios_htmx.html", {
         "comentarios": comentarios,
         "juego": juego
@@ -372,7 +353,7 @@ def votar_comentario_htmx(request, id_comentario):
 def juegos_api_freetogame(request):
     """
     Muestra un formulario para seleccionar plataforma.
-    Solo muestra los juegos si se ha enviado un filtro ?plataforma=...
+    ¿Solo muestra los juegos si se ha enviado un filtro? Plataforma=...
     """
     juegos = []
     plataforma_filtro = request.GET.get("plataforma", "").lower().strip()
@@ -387,7 +368,7 @@ def juegos_api_freetogame(request):
             except Exception as e:
                 print("❌ Error al conectar con la API de FreeToGame:", e)
         else:
-            # En producción, carga desde archivo JSON
+            # Para python.anywhere
             try:
                 ruta_json = os.path.join(settings.BASE_DIR, "data", "juegos_freetogame_backup.json")
                 with open(ruta_json, "r", encoding="utf-8") as f:
@@ -402,4 +383,3 @@ def juegos_api_freetogame(request):
         "juegos": juegos,
         "plataforma_seleccionada": plataforma_filtro
     })
-

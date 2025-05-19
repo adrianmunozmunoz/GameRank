@@ -2,13 +2,17 @@
 {% block content %}
 <div class="container mt-5">
 
-    <!-- Cabecera principal -->
-    <h2>Página de usuario</h2>
-    <p>Alias: <strong>{{ user_alias }}</strong></p>
+    <!-- Encabezado -->
+    <div class="mb-4 text-center">
+        <h2 class="mb-1">👤 Perfil de usuario</h2>
+        <p class="lead">Alias: <strong>{{ user_alias }}</strong></p>
+    </div>
 
-    <!-- RESUMEN ESTADÍSTICO DEL USUARIO -->
-    <div class="card mb-4">
-        <div class="card-header">Resumen estadístico</div>
+    <!-- Resumen estadístico -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-light">
+            <i class="fas fa-chart-bar me-2"></i>Resumen estadístico
+        </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Total de votaciones realizadas: {{ num_votaciones }}</li>
             <li class="list-group-item">
@@ -25,19 +29,25 @@
         </ul>
     </div>
 
-    <!-- BOTONES DE ACCESO RÁPIDO A OTRAS SECCIONES -->
-    <div class="mb-5 d-flex gap-2">
-        <a href="{% url 'juegos_votados' %}" class="btn btn-primary">Ver juegos votados</a>
-        <a href="{% url 'juegos_seguidos' %}" class="btn btn-success">Ver juegos seguidos</a>
+    <!-- Accesos rápidos -->
+    <div class="mb-5 d-flex gap-3 justify-content-center">
+        <a href="{% url 'juegos_votados' %}" class="btn btn-outline-primary">
+            ⭐ Juegos votados
+        </a>
+        <a href="{% url 'juegos_seguidos' %}" class="btn btn-outline-success">
+            ❤️ Juegos seguidos
+        </a>
     </div>
 
-    <!-- LISTADO DE JUEGOS VOTADOS CON LA PUNTUACIÓN DEL USUARIO -->
-    <div class="card mb-5">
-        <div class="card-header">Juegos votados</div>
+    <!-- Juegos votados -->
+    <div class="card mb-5 shadow-sm">
+        <div class="card-header bg-light">
+            <i class="fas fa-star me-2"></i>Juegos votados
+        </div>
         {% if juegos_votados %}
             <ul class="list-group list-group-flush">
                 {% for juego, voto in juegos_votados %}
-                    <li class="list-group-item d-flex justify-content-between">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
                         <span class="badge bg-info text-dark">Voto: {{ voto }}</span>
                     </li>
@@ -48,9 +58,11 @@
         {% endif %}
     </div>
 
-    <!-- LISTADO DE JUEGOS SEGUIDOS -->
-    <div class="card mb-5">
-        <div class="card-header">Juegos seguidos</div>
+    <!-- Juegos seguidos -->
+    <div class="card mb-5 shadow-sm">
+        <div class="card-header bg-light">
+            <i class="fas fa-heart me-2"></i>Juegos seguidos
+        </div>
         {% if juegos_seguidos %}
             <ul class="list-group list-group-flush">
                 {% for juego in juegos_seguidos %}
@@ -64,9 +76,11 @@
         {% endif %}
     </div>
 
-    <!-- COMENTARIOS REALIZADOS POR EL USUARIO -->
-    <div class="card mb-5">
-        <div class="card-header">Comentarios realizados</div>
+    <!-- Comentarios del usuario -->
+    <div class="card mb-5 shadow-sm">
+        <div class="card-header bg-light">
+            <i class="fas fa-comments me-2"></i>Comentarios realizados
+        </div>
         {% if comentarios_usuario %}
             <ul class="list-group list-group-flush">
                 {% for comentario in comentarios_usuario %}

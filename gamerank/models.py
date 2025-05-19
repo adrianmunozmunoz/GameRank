@@ -5,10 +5,6 @@ from django.db.models import Avg
 
 
 class Juego(models.Model):
-    """
-    Representa un videojuego disponible en la plataforma GameRank.
-    Contiene información extraída del XML (y/o APIs externas).
-    """
     id_juego = models.CharField(max_length=100, primary_key=True)
     titulo = models.CharField(max_length=100)
     plataforma = models.CharField(max_length=100)
@@ -25,25 +21,14 @@ class Juego(models.Model):
         return f"{self.titulo}: {self.id_juego}"
 
     def puntuacion_media(self):
-        """
-        Calcula la puntuación media de las valoraciones del juego.
-        Devuelve None si no hay votos.
-        """
         resultado = self.valoracion_set.aggregate(media=Avg('voto'))
         return round(resultado['media'], 2) if resultado['media'] is not None else None
 
     def total_votos(self):
-        """
-        Devuelve el número total de valoraciones recibidas por el juego.
-        """
         return self.valoracion_set.count()
 
 
 class Comentario(models.Model):
-    """
-    Comentario realizado por un usuario sobre un juego.
-    Incluye el texto y la fecha/hora de creación.
-    """
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     texto = models.TextField()
@@ -74,10 +59,6 @@ class VotoComentario(models.Model):
 
 
 class Valoracion(models.Model):
-    """
-    Valoración (voto de 0 a 5) que un usuario realiza sobre un juego.
-    Cada usuario solo puede valorar un juego una vez.
-    """
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     voto = models.IntegerField(
@@ -92,10 +73,6 @@ class Valoracion(models.Model):
 
 
 class Seguimiento(models.Model):
-    """
-    Asociación entre un usuario y un juego que ha decidido seguir.
-    Cada juego solo puede ser seguido una vez por usuario.
-    """
     juego = models.ForeignKey(Juego, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
@@ -108,10 +85,6 @@ class Seguimiento(models.Model):
 
 
 class ConfiguracionUsuario(models.Model):
-    """
-    Configuración visual personalizada de cada usuario.
-    Incluye alias, tipo de letra y tamaño del texto.
-    """
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     alias = models.CharField(max_length=100, blank=True)
     tipo_letra = models.CharField(

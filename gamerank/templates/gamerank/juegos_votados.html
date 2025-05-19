@@ -19,10 +19,25 @@
 
                 <div class="card-body">
                     <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
+                    <p class="card-text mb-1"><strong>Género:</strong> {{ juego.genero }}</p>
+                    <p class="card-text mb-1"><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
 
-                    <!-- Voto del usuario -->
-                    <p class="card-text mb-1"><strong>Tu puntuación:</strong> {{ juego.mi_voto }}/5</p>
-                    {% include "gamerank/includes/estrellas.html" with puntuacion=juego.mi_voto %}
+                    <!-- Puntuación media del juego -->
+                    <p class="card-text mb-1">
+                        <strong>Puntuación:</strong>
+                        {% if juego.puntuacion %}
+                            {% include "gamerank/includes/estrellas.html" with puntuacion=juego.puntuacion %}
+                            <span class="ms-2 text-muted small">({{ juego.puntuacion|floatformat:1 }}/5)</span>
+                        {% else %}
+                            <span class="text-muted">N/A</span>
+                        {% endif %}
+                    </p>
+
+                    <!-- Número de votos -->
+                    <p class="card-text"><strong>Votos:</strong> {{ juego.total_votos }}</p>
+
+                    <!-- Tu voto -->
+                    <p class="card-text"><strong>Tu puntuación:</strong> {{ juego.mi_voto }}/5</p>
                 </div>
 
                 <div class="card-footer bg-white border-0 text-center">

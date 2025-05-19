@@ -2,7 +2,7 @@
 {% block content %}
 
 <!-- Título principal de la ficha en modo dinámico -->
-<h2 class="section-title">{{ juego.titulo }} (modo dinámico)</h2>
+<h2 class="section-title mt-4">{{ juego.titulo }} (modo dinámico HTMX)</h2>
 
 <!-- BOTÓN PARA SEGUIR / DEJAR DE SEGUIR (formulario clásico con POST tradicional) -->
 <form method="POST" action="{% url 'detalle_juego' juego.id_juego %}" class="mb-4">
@@ -21,8 +21,8 @@
         <p><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
         <p><strong>Desarrollador:</strong> {{ juego.desarrollador }}</p>
         <p><strong>Publicador:</strong> {{ juego.publicador }}</p>
-        <p><strong>Fecha de lanzamiento:</strong> {{ juego.fecha_lanzamiento }}</p>
-        <p><strong>Descripción:</strong> {{ juego.descripcion_corta }}</p>
+        <p><strong>Fecha de lanzamiento:</strong> {{juego.fecha_lanzamiento}}</p>
+        <p><strong>Descripción:</strong> {{juego.descripcion_corta}}</p>
         {% if juego.url_juego %}
             <a href="{{ juego.url_juego }}" target="_blank" class="btn btn-primary">Jugar</a>
         {% endif %}

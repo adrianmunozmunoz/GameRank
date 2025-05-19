@@ -1,4 +1,8 @@
-/* === TIPOS DE LETRA PERSONALIZABLES === */
+/* ======================================
+   1. TIPOGRAFÍA PERSONALIZABLE
+   ====================================== */
+
+/* Tipos de letra */
 .fuente-sans-serif {
     font-family: 'Rubik', 'Segoe UI', sans-serif;
 }
@@ -15,7 +19,7 @@
     font-family: 'Pacifico', cursive;
 }
 
-/* === TAMAÑOS DE TEXTO AMPLIADOS === */
+/* Tamaños de texto */
 .tamano-small {
     font-size: 13px;
 }
@@ -32,7 +36,50 @@
     font-size: 24px;
 }
 
-/* === CABECERA CON IMAGEN DE FONDO PERSONALIZADA === */
+/* ======================================
+   2. ESTRUCTURA GENERAL Y LAYOUTS
+   ====================================== */
+
+body {
+    background-color: #f8f9fa;
+    color: #222;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: #343a40; /* gris oscuro */
+    text-align: center;
+    border-bottom: 2px solid #dee2e6; /* gris claro */
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.5rem;
+}
+
+
+section {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+/* ======================================
+   3. CABECERA Y NAVEGACIÓN
+   ====================================== */
+
+.titulo-gamerank {
+    font-family: 'Anton', sans-serif;  /* o 'Press Start 2P', 'Anton', etc. */
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+}
+
 .cabecera-principal {
     background-size: cover;
     background-position: center;
@@ -67,7 +114,6 @@
     margin: 0;
 }
 
-/* === MENÚ DE NAVEGACIÓN MODERNO === */
 .navbar {
     font-weight: 500;
     font-size: 1rem;
@@ -111,16 +157,28 @@
     color: #fff;
 }
 
-/* === TARJETAS DE JUEGOS === */
-.card {
-    transition: transform 0.2s ease-in-out;
+/* ======================================
+   4. BOTONES Y CONTROLES
+   ====================================== */
+
+.btn-outline-success,
+.btn-outline-danger {
+    min-width: 110px;
+    text-align: center;
 }
 
-.card:hover {
-    transform: scale(1.01);
+.d-grid {
+    display: grid;
 }
 
-/* === PIE DE PÁGINA === */
+.d-grid button {
+    width: 100%;
+}
+
+/* ======================================
+   5. PIE DE PÁGINA
+   ====================================== */
+
 footer {
     font-size: 0.85rem;
     color: #888;
@@ -129,41 +187,24 @@ footer {
     margin-top: 3rem;
 }
 
-/* === BOTONES DE SEGUIR / DEJAR DE SEGUIR === */
-.btn-outline-success,
-.btn-outline-danger {
-    min-width: 110px;
-    text-align: center;
-}
+/* ======================================
+   6. COMENTARIOS Y LISTAS
+   ====================================== */
 
-/* === COMENTARIOS === */
 .comment-box {
     border-left: 4px solid #ccc;
     padding-left: 1rem;
     margin-bottom: 1rem;
 }
 
-/* === LISTAS PERSONALIZADAS (ayuda) === */
 ul li {
     margin-bottom: 0.5rem;
 }
 
-/* === AJUSTES PARA SECCIÓN DE JUEGOS MEJOR VALORADOS === */
-.section-title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #222;
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5rem;
-}
+/* ======================================
+   7. ESTRELLAS (Font Awesome)
+   ====================================== */
 
-/* === ESPACIADO GENERAL ENTRE SECCIONES === */
-section {
-    margin-top: 3rem;
-    margin-bottom: 2rem;
+.fa-star {
+    vertical-align: middle;
 }

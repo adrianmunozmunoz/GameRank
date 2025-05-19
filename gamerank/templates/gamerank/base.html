@@ -34,7 +34,7 @@
         <!-- Título del sitio como enlace a la página principal -->
         <div class="container text-center py-5">
             <h1 class="titulo-sitio display-3 fw-bold mb-1">
-                <a href="{% url 'inicio' %}" class="text-white text-decoration-none">🎮 GameRank</a>
+                <a href="{% url 'inicio' %}" class="text-white text-decoration-none titulo-gamerank">🎮 GameRank</a>
             </h1>
             <!-- Alias o "Anónimo" -->
             <p class="lead fs-5">{{ user_alias }}</p>
@@ -69,11 +69,11 @@
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'juegos_votados' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_votados' %}">Votados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_votados' %}">Juegos votados</a></li>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'juegos_seguidos' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_seguidos' %}">Seguidos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_seguidos' %}">Juegos Seguidos</a></li>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'configuracion' %}
@@ -98,7 +98,7 @@
                 </form>
             {% else %}
                 <a class="btn btn-outline-light" href="{% url 'login' %}">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </a>
             {% endif %}
         </div>

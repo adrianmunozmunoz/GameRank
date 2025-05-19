@@ -1,7 +1,7 @@
 {% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
 
 {% block content %}
-<h2 class="section-title">{{ juego.titulo }}</h2>
+<h2 class="section-title mt-4">{{ juego.titulo }}</h2>
 
 <!-- Formulario para seguir o dejar de seguir el juego -->
 {% if user.is_authenticated %}

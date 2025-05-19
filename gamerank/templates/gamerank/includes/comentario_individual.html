@@ -2,10 +2,18 @@
 <li class="list-group-item p-0" id="comentario-{{ comentario.id }}">
     <div class="card border-0 shadow-sm rounded">
         <div class="card-body">
+
             <!-- Usuario y texto del comentario -->
-            <p class="mb-1"><strong>{{ comentario.usuario.username }}</strong>:</p>
-            <p class="mb-0">{{ comentario.texto }}</p>
-            <small class="text-muted">{{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+            <div class="mb-2">
+                <strong>
+                    <i class="fas fa-user-circle me-1"></i> {{ comentario.usuario.username }}
+                </strong>
+                <span class="text-muted small float-end">
+                    {{ comentario.fecha|date:"d/m/Y H:i" }}
+                </span>
+            </div>
+
+            <p class="mb-2">{{ comentario.texto }}</p>
 
             {% if user.is_authenticated %}
             <!-- Botones de votación con HTMX -->
@@ -13,7 +21,7 @@
                 hx-post="{% url 'votar_comentario_htmx' comentario.id %}"
                 hx-target="#comentario-{{ comentario.id }}"
                 hx-swap="outerHTML"
-                class="mt-3 d-flex gap-2"
+                class="mt-3 d-flex gap-2 justify-content-end flex-wrap"
             >
                 {% csrf_token %}
                 <button type="submit" name="tipo" value="like"
