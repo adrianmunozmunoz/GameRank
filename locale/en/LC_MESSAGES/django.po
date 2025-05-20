@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-20 11:35+0200\n"
+"POT-Creation-Date: 2025-05-20 12:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -315,8 +315,6 @@ msgstr "Vote"
 
 #: gamerank/templates/gamerank/detalle_juego.html:68
 #: gamerank/templates/gamerank/detalle_juego.html:84
-#, fuzzy
-#| msgid "Iniciar sesión"
 msgid "Inicia sesión"
 msgstr "Log in"
 
@@ -329,10 +327,8 @@ msgid "Escribe tu comentario:"
 msgstr "Write your comment:"
 
 #: gamerank/templates/gamerank/detalle_juego.html:81
-#, fuzzy
-#| msgid "Comentarios"
 msgid "Publicar comentario"
-msgstr "Comments"
+msgstr "Post comment"
 
 #: gamerank/templates/gamerank/detalle_juego.html:84
 msgid "para comentar este juego."
@@ -360,33 +356,27 @@ msgid "Publicar"
 msgstr "Post"
 
 #: gamerank/templates/gamerank/detalle_juego_htmx.html:91
-#, fuzzy
-#| msgid "Comentarios"
 msgid "Comentarios recientes"
-msgstr "Comments"
+msgstr "Recent Comments"
 
 #: gamerank/templates/gamerank/detalle_juego_htmx.html:111
 msgid "Ver esta ficha en modo tradicional"
 msgstr "View this profile in classic mode"
 
-#: gamerank/templates/gamerank/includes/comentarios_htmx.html:8
+#: gamerank/templates/gamerank/includes/comentarios_htmx.html:10
 msgid "Todavía no hay comentarios."
 msgstr "There are no comments yet."
 
 #: gamerank/templates/gamerank/inicio.html:7
-#, fuzzy
-#| msgid "Juegos votados"
 msgid "Juegos mejor valorados"
-msgstr "Voted games"
+msgstr "Top Rated Games"
 
 #: gamerank/templates/gamerank/inicio.html:31
 #: gamerank/templates/gamerank/juegos_seguidos.html:32
 #: gamerank/templates/gamerank/juegos_seguidos.html:37
 #: gamerank/templates/gamerank/juegos_votados.html:28
-#, fuzzy
-#| msgid "Configuración"
 msgid "Puntuación"
-msgstr "Settings"
+msgstr "Rating"
 
 #: gamerank/templates/gamerank/inicio.html:36
 #: gamerank/templates/gamerank/juegos_seguidos.html:37
@@ -427,8 +417,6 @@ msgid "No se encontraron juegos para la plataforma seleccionada."
 msgstr "No games found for the selected platform."
 
 #: gamerank/templates/gamerank/juegos_seguidos.html:8
-#, fuzzy
-#| msgid "Juegos seguidos"
 msgid "Tus juegos seguidos"
 msgstr "Followed games"
 
@@ -438,8 +426,6 @@ msgid "No estás siguiendo ningún juego todavía."
 msgstr "You are not following any games yet."
 
 #: gamerank/templates/gamerank/juegos_votados.html:8
-#, fuzzy
-#| msgid "Juegos votados"
 msgid "Tus juegos votados"
 msgstr "Voted games"
 
@@ -453,8 +439,6 @@ msgid "No has votado ningún juego todavía."
 msgstr "You haven't rated any games yet."
 
 #: gamerank/templates/gamerank/pagina_usuario.html:9
-#, fuzzy
-#| msgid "Comentarios del usuario"
 msgid "Perfil de usuario"
 msgstr "User's comments"
 
@@ -487,16 +471,12 @@ msgid "Voto"
 msgstr "Vote"
 
 #: gamerank/templates/gamerank/pagina_usuario.html:84
-#, fuzzy
-#| msgid "Comentarios del usuario"
 msgid "Comentarios realizados"
 msgstr "User's comments"
 
 #: gamerank/templates/gamerank/pagina_usuario.html:90
-#, fuzzy
-#| msgid "Juegos"
 msgid "Juego"
-msgstr "Games"
+msgstr "Game"
 
 #: gamerank/templates/gamerank/pagina_usuario.html:92
 msgid "Publicado el"
@@ -515,8 +495,6 @@ msgid "Gracias por usar"
 msgstr "Thank you for using"
 
 #: templates/registration/logged_out.html:14
-#, fuzzy
-#| msgid "Iniciar sesión"
 msgid "Iniciar sesión de nuevo"
 msgstr "Log in"
 
@@ -534,10 +512,8 @@ msgid "Nombre de usuario o contraseña incorrectos."
 msgstr "Incorrect username or password."
 
 #: templates/registration/login.html:20
-#, fuzzy
-#| msgid "Comentarios del usuario"
 msgid "Nombre de usuario"
-msgstr "User's comments"
+msgstr "Username"
 
 #: templates/registration/login.html:24
 msgid "Contraseña"

@@ -6,24 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="14466086-716b-4dc8-ac64-d819594b5851" name="Changes" comment="proyecto y aplicacion creadas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/ayuda.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/ayuda.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/configuracion.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/configuracion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/detalle_juego.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/detalle_juego.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/detalle_juego_htmx.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/detalle_juego_htmx.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/comentario_individual.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/comentario_individual.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/comentarios_htmx.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/comentarios_htmx.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/estrellas.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/includes/estrellas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/inicio.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/inicio.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_api.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_api.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_seguidos.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_seguidos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_votados.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_votados.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/pagina_usuario.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/pagina_usuario.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gamerankproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamerankproject/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/logged_out.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/logged_out.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" beforeDir="false" afterPath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +100,7 @@
       <workItem from="1746953635369" duration="7291000" />
       <workItem from="1747567770236" duration="6293000" />
       <workItem from="1747642015225" duration="31821000" />
-      <workItem from="1747727335854" duration="7788000" />
+      <workItem from="1747727335854" duration="10341000" />
     </task>
     <servers />
   </component>
