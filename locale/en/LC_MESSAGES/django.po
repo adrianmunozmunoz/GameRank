@@ -1,0 +1,544 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-20 11:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: gamerank/templates/gamerank/ayuda.html:7
+msgid "Centro de Ayuda"
+msgstr "Help Center"
+
+#: gamerank/templates/gamerank/ayuda.html:16
+msgid "Bienvenido a"
+msgstr "Welcome to"
+
+#: gamerank/templates/gamerank/ayuda.html:16
+msgid "tu plataforma para explorar, valorar y seguir videojuegos."
+msgstr "your platform to explore, rate, and follow video games."
+
+#: gamerank/templates/gamerank/ayuda.html:21
+msgid "¿Qué puedes hacer en GameRank?"
+msgstr "What can you do in GameRank?"
+
+#: gamerank/templates/gamerank/ayuda.html:23
+msgid "Explorar juegos mejor valorados."
+msgstr "Explore top-rated games."
+
+#: gamerank/templates/gamerank/ayuda.html:24
+msgid "Ver detalles de cada título."
+msgstr "View details of each title."
+
+#: gamerank/templates/gamerank/ayuda.html:25
+msgid "Puntuar del 0 al 5 y dejar comentarios."
+msgstr "Rate from 0 to 5 and leave comments."
+
+#: gamerank/templates/gamerank/ayuda.html:26
+msgid "Seguir tus juegos favoritos."
+msgstr "Follow your favorite games."
+
+#: gamerank/templates/gamerank/ayuda.html:27
+msgid "Ver tu perfil con toda tu actividad."
+msgstr "See your profile with all your activity."
+
+#: gamerank/templates/gamerank/ayuda.html:28
+msgid "Configurar la apariencia del sitio."
+msgstr "Customize the site's appearance."
+
+#: gamerank/templates/gamerank/ayuda.html:34
+msgid "¿Cómo iniciar sesión?"
+msgstr "How to log in?"
+
+#: gamerank/templates/gamerank/ayuda.html:36
+msgid "Usa el botón"
+msgstr "Use the button"
+
+#: gamerank/templates/gamerank/ayuda.html:36
+#: templates/registration/login.html:28
+msgid "Entrar"
+msgstr "Log in"
+
+#: gamerank/templates/gamerank/ayuda.html:36
+msgid ""
+"en el menú. Si no tienes cuenta, pídele a tu profesor que te cree una desde"
+msgstr ""
+"in the menu. If you don't have an account, ask your professor to create one "
+"from"
+
+#: gamerank/templates/gamerank/ayuda.html:42
+msgid "Créditos"
+msgstr "Credits"
+
+#: gamerank/templates/gamerank/ayuda.html:44
+msgid "Desarrollador:"
+msgstr "Developer:"
+
+#: gamerank/templates/gamerank/ayuda.html:45
+msgid "Profesores:"
+msgstr "Professors:"
+
+#: gamerank/templates/gamerank/ayuda.html:46
+msgid "Curso:"
+msgstr "Course:"
+
+#: gamerank/templates/gamerank/ayuda.html:46
+msgid "Servicios y Aplicaciones Telemáticas — URJC 2024–2025"
+msgstr "Telematics Services and Applications — URJC 2024–2025"
+
+#: gamerank/templates/gamerank/ayuda.html:51
+msgid "Volver al inicio"
+msgstr "Back to home"
+
+#: gamerank/templates/gamerank/base.html:7
+#: gamerank/templates/gamerank/base.html:38
+msgid "GameRank"
+msgstr "GameRank"
+
+#: gamerank/templates/gamerank/base.html:58
+msgid "Inicio"
+msgstr "Home"
+
+#: gamerank/templates/gamerank/base.html:63
+msgid "Juegos API"
+msgstr "API Games"
+
+#: gamerank/templates/gamerank/base.html:73
+#: gamerank/templates/gamerank/pagina_usuario.html:37
+#: gamerank/templates/gamerank/pagina_usuario.html:47
+msgid "Juegos votados"
+msgstr "Voted games"
+
+#: gamerank/templates/gamerank/base.html:77
+#: gamerank/templates/gamerank/pagina_usuario.html:40
+#: gamerank/templates/gamerank/pagina_usuario.html:66
+msgid "Juegos seguidos"
+msgstr "Followed games"
+
+#: gamerank/templates/gamerank/base.html:81
+msgid "Configuración"
+msgstr "Settings"
+
+#: gamerank/templates/gamerank/base.html:85
+msgid "Ayuda"
+msgstr "Help"
+
+#: gamerank/templates/gamerank/base.html:88
+msgid "Admin"
+msgstr "Admin"
+
+#: gamerank/templates/gamerank/base.html:97
+msgid "Salir"
+msgstr "Log out"
+
+#: gamerank/templates/gamerank/base.html:102
+#: templates/registration/login.html:7
+msgid "Iniciar sesión"
+msgstr "Log in"
+
+#: gamerank/templates/gamerank/base.html:117
+msgid "Juegos"
+msgstr "Games"
+
+#: gamerank/templates/gamerank/base.html:118
+#: gamerank/templates/gamerank/detalle_juego.html:90
+msgid "Comentarios"
+msgstr "Comments"
+
+#: gamerank/templates/gamerank/base.html:120
+msgid "Votados por el usuario"
+msgstr "User's votes"
+
+#: gamerank/templates/gamerank/base.html:121
+msgid "Comentarios del usuario"
+msgstr "User's comments"
+
+#: gamerank/templates/gamerank/configuracion.html:7
+msgid "Personaliza tu experiencia"
+msgstr "Customize your experience"
+
+#: gamerank/templates/gamerank/configuracion.html:22
+#: gamerank/templates/gamerank/pagina_usuario.html:10
+msgid "Alias"
+msgstr "Alias"
+
+#: gamerank/templates/gamerank/configuracion.html:25
+msgid "Este nombre aparecerá en la cabecera."
+msgstr "This name will appear in the header."
+
+#: gamerank/templates/gamerank/configuracion.html:31
+msgid "Tipo de letra"
+msgstr "Font type"
+
+#: gamerank/templates/gamerank/configuracion.html:34
+msgid "Sans Serif"
+msgstr "Sans Serif"
+
+#: gamerank/templates/gamerank/configuracion.html:35
+msgid "Serif"
+msgstr "Serif"
+
+#: gamerank/templates/gamerank/configuracion.html:36
+msgid "Monoespaciada"
+msgstr "Monospace"
+
+#: gamerank/templates/gamerank/configuracion.html:37
+msgid "Decorativa"
+msgstr "Decorative"
+
+#: gamerank/templates/gamerank/configuracion.html:44
+msgid "Tamaño del texto"
+msgstr "Text size"
+
+#: gamerank/templates/gamerank/configuracion.html:47
+msgid "Pequeño"
+msgstr "Small"
+
+#: gamerank/templates/gamerank/configuracion.html:48
+msgid "Mediano"
+msgstr "Medium"
+
+#: gamerank/templates/gamerank/configuracion.html:49
+msgid "Grande"
+msgstr "Large"
+
+#: gamerank/templates/gamerank/configuracion.html:50
+msgid "Extra grande"
+msgstr "Extra large"
+
+#: gamerank/templates/gamerank/configuracion.html:57
+msgid "Guardar cambios"
+msgstr "Save changes"
+
+#: gamerank/templates/gamerank/configuracion.html:64
+#: gamerank/templates/gamerank/juegos_seguidos.html:62
+#: gamerank/templates/gamerank/juegos_votados.html:74
+msgid "Volver a tu perfil"
+msgstr "Back to your profile"
+
+#: gamerank/templates/gamerank/detalle_juego.html:12
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:12
+#: gamerank/templates/gamerank/inicio.html:53
+#: gamerank/templates/gamerank/juegos_seguidos.html:46
+#: gamerank/templates/gamerank/juegos_votados.html:51
+msgid "Dejar de seguir"
+msgstr "Unfollow"
+
+#: gamerank/templates/gamerank/detalle_juego.html:14
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:14
+#: gamerank/templates/gamerank/inicio.html:57
+#: gamerank/templates/gamerank/juegos_votados.html:55
+msgid "Seguir"
+msgstr "Follow"
+
+#: gamerank/templates/gamerank/detalle_juego.html:23
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:21
+#: gamerank/templates/gamerank/inicio.html:26
+#: gamerank/templates/gamerank/juegos_api.html:37
+#: gamerank/templates/gamerank/juegos_seguidos.html:27
+#: gamerank/templates/gamerank/juegos_votados.html:23
+msgid "Género"
+msgstr "Genre"
+
+#: gamerank/templates/gamerank/detalle_juego.html:24
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:22
+#: gamerank/templates/gamerank/inicio.html:27
+#: gamerank/templates/gamerank/juegos_api.html:38
+#: gamerank/templates/gamerank/juegos_seguidos.html:28
+#: gamerank/templates/gamerank/juegos_votados.html:24
+msgid "Plataforma"
+msgstr "Platform"
+
+#: gamerank/templates/gamerank/detalle_juego.html:25
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:23
+#: gamerank/templates/gamerank/juegos_api.html:39
+msgid "Desarrollador"
+msgstr "Developer"
+
+#: gamerank/templates/gamerank/detalle_juego.html:26
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:24
+msgid "Publicador"
+msgstr "Publisher"
+
+#: gamerank/templates/gamerank/detalle_juego.html:27
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:25
+msgid "Fecha de lanzamiento"
+msgstr "Release date"
+
+#: gamerank/templates/gamerank/detalle_juego.html:28
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:26
+msgid "Descripción"
+msgstr "Description"
+
+#: gamerank/templates/gamerank/detalle_juego.html:31
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:28
+#: gamerank/templates/gamerank/juegos_api.html:43
+msgid "Jugar"
+msgstr "Play"
+
+#: gamerank/templates/gamerank/detalle_juego.html:43
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:39
+msgid "Tu valoración"
+msgstr "Your rating"
+
+#: gamerank/templates/gamerank/detalle_juego.html:48
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:44
+msgid "Ya has puntuado este juego con:"
+msgstr "You have already rated this game:"
+
+#: gamerank/templates/gamerank/detalle_juego.html:57
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:52
+msgid "Selecciona una puntuación:"
+msgstr "Select a score:"
+
+#: gamerank/templates/gamerank/detalle_juego.html:59
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:54
+msgid "Elige"
+msgstr "Choose"
+
+#: gamerank/templates/gamerank/detalle_juego.html:64
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:59
+msgid "Votar"
+msgstr "Vote"
+
+#: gamerank/templates/gamerank/detalle_juego.html:68
+#: gamerank/templates/gamerank/detalle_juego.html:84
+#, fuzzy
+#| msgid "Iniciar sesión"
+msgid "Inicia sesión"
+msgstr "Log in"
+
+#: gamerank/templates/gamerank/detalle_juego.html:68
+msgid "para votar este juego."
+msgstr "to vote for this game."
+
+#: gamerank/templates/gamerank/detalle_juego.html:78
+msgid "Escribe tu comentario:"
+msgstr "Write your comment:"
+
+#: gamerank/templates/gamerank/detalle_juego.html:81
+#, fuzzy
+#| msgid "Comentarios"
+msgid "Publicar comentario"
+msgstr "Comments"
+
+#: gamerank/templates/gamerank/detalle_juego.html:84
+msgid "para comentar este juego."
+msgstr "to comment on this game."
+
+#: gamerank/templates/gamerank/detalle_juego.html:94
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:107
+msgid "Volver"
+msgstr "Back"
+
+#: gamerank/templates/gamerank/detalle_juego.html:99
+msgid "Ver esta ficha en modo dinámico (HTMX)"
+msgstr "View this profile in dynamic mode (HTMX)"
+
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:6
+msgid "modo dinámico HTMX"
+msgstr "dynamic HTMX mode"
+
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:68
+msgid "Escribe un comentario"
+msgstr "Write a comment"
+
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:82
+msgid "Publicar"
+msgstr "Post"
+
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:91
+#, fuzzy
+#| msgid "Comentarios"
+msgid "Comentarios recientes"
+msgstr "Comments"
+
+#: gamerank/templates/gamerank/detalle_juego_htmx.html:111
+msgid "Ver esta ficha en modo tradicional"
+msgstr "View this profile in classic mode"
+
+#: gamerank/templates/gamerank/includes/comentarios_htmx.html:8
+msgid "Todavía no hay comentarios."
+msgstr "There are no comments yet."
+
+#: gamerank/templates/gamerank/inicio.html:7
+#, fuzzy
+#| msgid "Juegos votados"
+msgid "Juegos mejor valorados"
+msgstr "Voted games"
+
+#: gamerank/templates/gamerank/inicio.html:31
+#: gamerank/templates/gamerank/juegos_seguidos.html:32
+#: gamerank/templates/gamerank/juegos_seguidos.html:37
+#: gamerank/templates/gamerank/juegos_votados.html:28
+#, fuzzy
+#| msgid "Configuración"
+msgid "Puntuación"
+msgstr "Settings"
+
+#: gamerank/templates/gamerank/inicio.html:36
+#: gamerank/templates/gamerank/juegos_seguidos.html:37
+#: gamerank/templates/gamerank/juegos_votados.html:33
+msgid "N/A"
+msgstr "N/A"
+
+#: gamerank/templates/gamerank/inicio.html:41
+#: gamerank/templates/gamerank/juegos_seguidos.html:40
+#: gamerank/templates/gamerank/juegos_votados.html:38
+msgid "Votos"
+msgstr "Votes"
+
+#: gamerank/templates/gamerank/inicio.html:47
+#: gamerank/templates/gamerank/juegos_seguidos.html:49
+#: gamerank/templates/gamerank/juegos_votados.html:62
+msgid "Ver detalles"
+msgstr "View details"
+
+#: gamerank/templates/gamerank/juegos_api.html:7
+msgid "Juegos desde la API FreeToGame"
+msgstr "Games from the FreeToGame API"
+
+#: gamerank/templates/gamerank/juegos_api.html:13
+msgid "Filtrar por plataforma:"
+msgstr "Filter by platform:"
+
+#: gamerank/templates/gamerank/juegos_api.html:15
+msgid "Selecciona una plataforma"
+msgstr "Select a platform"
+
+#: gamerank/templates/gamerank/juegos_api.html:21
+msgid "Filtrar"
+msgstr "Filter"
+
+#: gamerank/templates/gamerank/juegos_api.html:51
+msgid "No se encontraron juegos para la plataforma seleccionada."
+msgstr "No games found for the selected platform."
+
+#: gamerank/templates/gamerank/juegos_seguidos.html:8
+#, fuzzy
+#| msgid "Juegos seguidos"
+msgid "Tus juegos seguidos"
+msgstr "Followed games"
+
+#: gamerank/templates/gamerank/juegos_seguidos.html:58
+#: gamerank/templates/gamerank/pagina_usuario.html:77
+msgid "No estás siguiendo ningún juego todavía."
+msgstr "You are not following any games yet."
+
+#: gamerank/templates/gamerank/juegos_votados.html:8
+#, fuzzy
+#| msgid "Juegos votados"
+msgid "Tus juegos votados"
+msgstr "Voted games"
+
+#: gamerank/templates/gamerank/juegos_votados.html:41
+msgid "Tu puntuación"
+msgstr "Your score"
+
+#: gamerank/templates/gamerank/juegos_votados.html:70
+#: gamerank/templates/gamerank/pagina_usuario.html:59
+msgid "No has votado ningún juego todavía."
+msgstr "You haven't rated any games yet."
+
+#: gamerank/templates/gamerank/pagina_usuario.html:9
+#, fuzzy
+#| msgid "Comentarios del usuario"
+msgid "Perfil de usuario"
+msgstr "User's comments"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:16
+msgid "Resumen estadístico"
+msgstr "Statistics summary"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:19
+msgid "Total de votaciones realizadas"
+msgstr "Total ratings made"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:21
+msgid "Puntuación media de tus votaciones"
+msgstr "Average score of your ratings"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:28
+msgid "Total de comentarios realizados"
+msgstr "Total comments made"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:29
+msgid "Total de juegos en la plataforma"
+msgstr "Total games on the platform"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:30
+msgid "Total de comentarios publicados"
+msgstr "Total comments published"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:54
+msgid "Voto"
+msgstr "Vote"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:84
+#, fuzzy
+#| msgid "Comentarios del usuario"
+msgid "Comentarios realizados"
+msgstr "User's comments"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:90
+#, fuzzy
+#| msgid "Juegos"
+msgid "Juego"
+msgstr "Games"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:92
+msgid "Publicado el"
+msgstr "Published on"
+
+#: gamerank/templates/gamerank/pagina_usuario.html:97
+msgid "No has escrito ningún comentario todavía."
+msgstr "You haven't written any comments yet."
+
+#: templates/registration/logged_out.html:9
+msgid "Has cerrado sesión correctamente"
+msgstr "You have logged out successfully"
+
+#: templates/registration/logged_out.html:10
+msgid "Gracias por usar"
+msgstr "Thank you for using"
+
+#: templates/registration/logged_out.html:14
+#, fuzzy
+#| msgid "Iniciar sesión"
+msgid "Iniciar sesión de nuevo"
+msgstr "Log in"
+
+#: templates/registration/logged_out.html:17
+#: templates/registration/login.html:34
+msgid "Volver a la página principal"
+msgstr "Back to main page"
+
+#: templates/registration/login.html:12
+msgid "¡Error!"
+msgstr "Error!"
+
+#: templates/registration/login.html:12
+msgid "Nombre de usuario o contraseña incorrectos."
+msgstr "Incorrect username or password."
+
+#: templates/registration/login.html:20
+#, fuzzy
+#| msgid "Comentarios del usuario"
+msgid "Nombre de usuario"
+msgstr "User's comments"
+
+#: templates/registration/login.html:24
+msgid "Contraseña"
+msgstr "Password"

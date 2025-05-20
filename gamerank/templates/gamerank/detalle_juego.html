@@ -1,4 +1,5 @@
 {% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 
 {% block content %}
 <h2 class="section-title mt-4">{{ juego.titulo }}</h2>
@@ -8,9 +9,9 @@
     <form method="POST" class="mb-4">
         {% csrf_token %}
         {% if seguimiento_usuario %}
-            <button type="submit" name="dejar_seguir" class="btn btn-outline-danger btn-sm">Dejar de seguir</button>
+            <button type="submit" name="dejar_seguir" class="btn btn-outline-danger btn-sm">{% trans "Dejar de seguir" %}</button>
         {% else %}
-            <button type="submit" name="seguir" class="btn btn-outline-success btn-sm">Seguir</button>
+            <button type="submit" name="seguir" class="btn btn-outline-success btn-sm">{% trans "Seguir" %}</button>
         {% endif %}
     </form>
 {% endif %}
@@ -19,15 +20,15 @@
 <div class="row mb-5">
     <div class="col-md-8">
         <!-- Información textual del juego -->
-        <p><strong>Género:</strong> {{ juego.genero }}</p>
-        <p><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
-        <p><strong>Desarrollador:</strong> {{ juego.desarrollador }}</p>
-        <p><strong>Publicador:</strong> {{ juego.publicador }}</p>
-        <p><strong>Fecha de lanzamiento:</strong> {{ juego.fecha_lanzamiento }}</p>
-        <p><strong>Descripción:</strong> {{ juego.descripcion_corta }}</p>
+        <p><strong>{% trans "Género" %}:</strong> {{ juego.genero }}</p>
+        <p><strong>{% trans "Plataforma" %}:</strong> {{ juego.plataforma }}</p>
+        <p><strong>{% trans "Desarrollador" %}:</strong> {{ juego.desarrollador }}</p>
+        <p><strong>{% trans "Publicador" %}:</strong> {{ juego.publicador }}</p>
+        <p><strong>{% trans "Fecha de lanzamiento" %}:</strong> {{ juego.fecha_lanzamiento }}</p>
+        <p><strong>{% trans "Descripción" %}:</strong> {{ juego.descripcion_corta }}</p>
         {% if juego.url_juego %}
             <!-- Enlace externo para jugar (opcional) -->
-            <a href="{{ juego.url_juego }}" target="_blank" class="btn btn-primary">Jugar</a>
+            <a href="{{ juego.url_juego }}" target="_blank" class="btn btn-primary">{% trans "Jugar" %}</a>
         {% endif %}
     </div>
     <div class="col-md-4">
@@ -39,12 +40,12 @@
 </div>
 
 <!-- VALORACIÓN DEL USUARIO -->
-<h3 class="mt-5">Tu valoración</h3>
+<h3 class="mt-5">{% trans "Tu valoración" %}</h3>
 {% if user.is_authenticated %}
     {% if valoracion_usuario %}
         <!-- Mostrar estrellas si ya ha votado -->
         <p>
-            Ya has puntuado este juego con:
+            {% trans "Ya has puntuado este juego con:" %}
             {% include "gamerank/includes/estrellas.html" with puntuacion=valoracion_usuario.voto %}
             <small>({{ valoracion_usuario.voto }}/5)</small>
         </p>
@@ -53,18 +54,18 @@
         <!-- Formulario para votar el juego -->
         <form method="POST" class="mb-4">
             {% csrf_token %}
-            <label for="votoSelect" class="form-label">Selecciona una puntuación:</label>
+            <label for="votoSelect" class="form-label">{% trans "Selecciona una puntuación:" %}</label>
             <select id="votoSelect" name="voto" class="form-select w-auto d-inline-block" required>
-                <option value="">-- Elige --</option>
+                <option value="">-- {% trans "Elige" %} --</option>
                 {% for n in rango_votacion %}
                     <option value="{{ n }}">{{ n }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn btn-sm btn-success">Votar</button>
+            <button type="submit" class="btn btn-sm btn-success">{% trans "Votar" %}</button>
         </form>
     {% endif %}
 {% else %}
-    <p><a href="/login/">Inicia sesión</a> para votar este juego.</p>
+    <p><a href="/login/">{% trans "Inicia sesión" %}</a> {% trans "para votar este juego." %}</p>
 {% endif %}
 
 <hr class="my-4">
@@ -74,28 +75,28 @@
     <form method="POST" class="mt-4">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="textoComentario" class="form-label">Escribe tu comentario:</label>
+            <label for="textoComentario" class="form-label">{% trans "Escribe tu comentario:" %}</label>
             <textarea name="texto_comentario" id="textoComentario" class="form-control" rows="3" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Publicar comentario</button>
+        <button type="submit" class="btn btn-primary">{% trans "Publicar comentario" %}</button>
     </form>
 {% else %}
-    <p><a href="/login/">Inicia sesión</a> para comentar este juego.</p>
+    <p><a href="/login/">{% trans "Inicia sesión" %}</a> {% trans "para comentar este juego." %}</p>
 {% endif %}
 
 <hr class="my-4">
 
 <!-- COMENTARIOS DEL JUEGO -->
-<h3>Comentarios</h3>
+<h3>{% trans "Comentarios" %}</h3>
 {% include "gamerank/includes/comentarios_htmx.html" %}
 
 <!-- BOTÓN PARA VOLVER A LA PÁGINA PRINCIPAL -->
-<a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← Volver</a>
+<a href="{% url 'inicio' %}" class="btn btn-secondary mt-4">← {% trans "Volver" %}</a>
 
 <!-- ENLACE A LA VERSIÓN DINÁMICA DEL DETALLE (HTMX) -->
 <div class="mt-3">
     <a href="{% url 'detalle_juego_htmx' juego.id_juego %}" class="btn btn-outline-secondary btn-sm">
-        Ver esta ficha en modo dinámico (HTMX)
+        {% trans "Ver esta ficha en modo dinámico (HTMX)" %}
     </a>
 </div>
 {% endblock %}

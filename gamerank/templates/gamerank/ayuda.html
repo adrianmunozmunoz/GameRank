@@ -1,9 +1,10 @@
-{% extends "gamerank/base.html" %}
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 
 {% block content %}
 
 <!-- Título principal -->
-<section class="section-title">❓ Centro de Ayuda</section>
+<section class="section-title">❓ {% trans "Centro de Ayuda" %}</section>
 
 <!-- Contenido centrado en columna ancha -->
 <div class="row justify-content-center">
@@ -12,42 +13,42 @@
         <div class="card shadow-sm border-0 p-4">
 
             <!-- Introducción -->
-            <p class="lead">Bienvenido a <strong>GameRank</strong>, tu plataforma para explorar, valorar y seguir videojuegos.</p>
+            <p class="lead">{% trans "Bienvenido a" %} <strong>GameRank</strong>, {% trans "tu plataforma para explorar, valorar y seguir videojuegos." %}</p>
 
             <hr>
 
             <!-- Sección de funcionalidades -->
-            <h4><i class="fas fa-gamepad"></i> ¿Qué puedes hacer en GameRank?</h4>
+            <h4><i class="fas fa-gamepad"></i> {% trans "¿Qué puedes hacer en GameRank?" %}</h4>
             <ul class="list-unstyled ps-3">
-                <li><i class="fas fa-search text-success me-2"></i> Explorar juegos mejor valorados.</li>
-                <li><i class="fas fa-info-circle text-success me-2"></i> Ver detalles de cada título.</li>
-                <li><i class="fas fa-star text-success me-2"></i> Puntuar del 0 al 5 y dejar comentarios.</li>
-                <li><i class="fas fa-heart text-success me-2"></i> Seguir tus juegos favoritos.</li>
-                <li><i class="fas fa-user text-success me-2"></i> Ver tu perfil con toda tu actividad.</li>
-                <li><i class="fas fa-cog text-success me-2"></i> Configurar la apariencia del sitio.</li>
+                <li><i class="fas fa-search text-success me-2"></i> {% trans "Explorar juegos mejor valorados." %}</li>
+                <li><i class="fas fa-info-circle text-success me-2"></i> {% trans "Ver detalles de cada título." %}</li>
+                <li><i class="fas fa-star text-success me-2"></i> {% trans "Puntuar del 0 al 5 y dejar comentarios." %}</li>
+                <li><i class="fas fa-heart text-success me-2"></i> {% trans "Seguir tus juegos favoritos." %}</li>
+                <li><i class="fas fa-user text-success me-2"></i> {% trans "Ver tu perfil con toda tu actividad." %}</li>
+                <li><i class="fas fa-cog text-success me-2"></i> {% trans "Configurar la apariencia del sitio." %}</li>
             </ul>
 
             <hr>
 
             <!-- Inicio de sesión -->
-            <h4><i class="fas fa-lock"></i> ¿Cómo iniciar sesión?</h4>
+            <h4><i class="fas fa-lock"></i> {% trans "¿Cómo iniciar sesión?" %}</h4>
             <p>
-                Usa el botón <strong>Entrar</strong> en el menú. Si no tienes cuenta, pídele a tu profesor que te cree una desde <code>/admin/</code>.
+                {% trans "Usa el botón" %} <strong>{% trans "Entrar" %}</strong> {% trans "en el menú. Si no tienes cuenta, pídele a tu profesor que te cree una desde" %} <code>/admin/</code>.
             </p>
 
             <hr>
 
             <!-- Créditos -->
-            <h4><i class="fas fa-users"></i> Créditos</h4>
+            <h4><i class="fas fa-users"></i> {% trans "Créditos" %}</h4>
             <ul class="list-unstyled">
-                <li><strong>Desarrollador:</strong> Adrián Muñoz</li>
-                <li><strong>Profesores:</strong> Francisco M. Melgarejo y Luis Bote Curiel</li>
-                <li><strong>Curso:</strong> Servicios y Aplicaciones Telemáticas — URJC 2024–2025</li>
+                <li><strong>{% trans "Desarrollador:" %}</strong> Adrián Muñoz</li>
+                <li><strong>{% trans "Profesores:" %}</strong> Francisco M. Melgarejo y Luis Bote Curiel</li>
+                <li><strong>{% trans "Curso:" %}</strong> {% trans "Servicios y Aplicaciones Telemáticas — URJC 2024–2025" %}</li>
             </ul>
 
             <!-- Botón de volver -->
             <div class="text-end mt-3">
-                <a href="{% url 'inicio' %}" class="btn btn-outline-primary">← Volver al inicio</a>
+                <a href="{% url 'inicio' %}" class="btn btn-outline-primary">← {% trans "Volver al inicio" %}</a>
             </div>
 
         </div>

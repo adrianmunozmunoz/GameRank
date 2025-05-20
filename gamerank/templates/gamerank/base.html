@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>GameRank</title>
+    <title>{% trans "GameRank" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Icono del sitio (favicon) -->
@@ -34,7 +35,7 @@
         <!-- Título del sitio como enlace a la página principal -->
         <div class="container text-center py-5">
             <h1 class="titulo-sitio display-3 fw-bold mb-1">
-                <a href="{% url 'inicio' %}" class="text-white text-decoration-none titulo-gamerank">🎮 GameRank</a>
+                <a href="{% url 'inicio' %}" class="text-white text-decoration-none titulo-gamerank">🎮 {% trans "GameRank" %}</a>
             </h1>
             <!-- Alias o "Anónimo" -->
             <p class="lead fs-5">{{ user_alias }}</p>
@@ -54,12 +55,12 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarContenido">
             <ul class="navbar-nav mb-2 mb-lg-0 gap-2">
                 {% if request.resolver_match.url_name != 'inicio' %}
-                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inicio' %}">{% trans "Inicio" %}</a></li>
                 {% endif %}
 
                 {% if request.resolver_match.url_name != 'juegos_api_freetogame' %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'juegos_api_freetogame' %}">Juegos API</a>
+                        <a class="nav-link" href="{% url 'juegos_api_freetogame' %}">{% trans "Juegos API" %}</a>
                     </li>
                 {% endif %}
 
@@ -69,22 +70,22 @@
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'juegos_votados' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_votados' %}">Juegos votados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_votados' %}">{% trans "Juegos votados" %}</a></li>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'juegos_seguidos' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_seguidos' %}">Juegos Seguidos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'juegos_seguidos' %}">{% trans "Juegos seguidos" %}</a></li>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'configuracion' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'configuracion' %}">Configuración</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'configuracion' %}">{% trans "Configuración" %}</a></li>
                     {% endif %}
 
                     {% if request.resolver_match.url_name != 'ayuda' %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'ayuda' %}">Ayuda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ayuda' %}">{% trans "Ayuda" %}</a></li>
                     {% endif %}
 
-                    <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/">{% trans "Admin" %}</a></li>
                 {% endif %}
             </ul>
 
@@ -93,12 +94,12 @@
                 <form method="post" action="{% url 'logout' %}" class="d-flex">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-light">
-                        <i class="fas fa-sign-out-alt"></i> Salir
+                        <i class="fas fa-sign-out-alt"></i> {% trans "Salir" %}
                     </button>
                 </form>
             {% else %}
                 <a class="btn btn-outline-light" href="{% url 'login' %}">
-                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    <i class="fas fa-sign-in-alt"></i> {% trans "Iniciar sesión" %}
                 </a>
             {% endif %}
         </div>
@@ -113,11 +114,11 @@
 <!-- ================= PIE DE PÁGINA ================= -->
 <footer class="text-center mt-5 py-3 border-top bg-light text-secondary">
     <p class="mb-0 small">
-        Juegos: {{ total_juegos }} |
-        Comentarios: {{ total_comentarios }} |
+        {% trans "Juegos" %}: {{ total_juegos }} |
+        {% trans "Comentarios" %}: {{ total_comentarios }} |
         {% if user.is_authenticated %}
-            Votados por el usuario: {{ votos_usuario }} |
-            Comentarios del usuario: {{ comentarios_usuario }}
+            {% trans "Votados por el usuario" %}: {{ votos_usuario }} |
+            {% trans "Comentarios del usuario" %}: {{ comentarios_usuario }}
         {% endif %}
     </p>
 </footer>

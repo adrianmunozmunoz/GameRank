@@ -1,16 +1,15 @@
-<!-- Formulario de inicio de sesión con plantilla extendida -->
-{% extends "gamerank/base.html" %}
-
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 {% block content %}
 <div class="container w-50 mt-5">
 
     <!-- Título -->
-    <h2 class="mb-4 text-center">Iniciar sesión</h2>
+    <h2 class="mb-4 text-center">{% trans "Iniciar sesión" %}</h2>
 
     <!-- Bloque de errores si login falla -->
     {% if form.errors %}
         <div class="alert alert-danger">
-            <strong>¡Error!</strong> Nombre de usuario o contraseña incorrectos.
+            <strong>{% trans "¡Error!" %}</strong> {% trans "Nombre de usuario o contraseña incorrectos." %}
         </div>
     {% endif %}
 
@@ -18,21 +17,21 @@
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="id_username" class="form-label">Nombre de usuario</label>
+            <label for="id_username" class="form-label">{% trans "Nombre de usuario" %}</label>
             {{ form.username }}
         </div>
         <div class="mb-3">
-            <label for="id_password" class="form-label">Contraseña</label>
+            <label for="id_password" class="form-label">{% trans "Contraseña" %}</label>
             {{ form.password }}
         </div>
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Entrar</button>
+            <button type="submit" class="btn btn-primary">{% trans "Entrar" %}</button>
         </div>
     </form>
 
     <!-- Enlace para volver a inicio -->
     <div class="text-center mt-3">
-        <a href="{% url 'inicio' %}" class="btn btn-link">← Volver a la página principal</a>
+        <a href="{% url 'inicio' %}" class="btn btn-link">← {% trans "Volver a la página principal" %}</a>
     </div>
 </div>
 {% endblock %}

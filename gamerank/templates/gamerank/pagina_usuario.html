@@ -1,67 +1,69 @@
-{% extends 'gamerank/base.html' %}
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
+
 {% block content %}
 <div class="container mt-5">
 
     <!-- Encabezado -->
     <div class="mb-4 text-center">
-        <h2 class="mb-1">👤 Perfil de usuario</h2>
-        <p class="lead">Alias: <strong>{{ user_alias }}</strong></p>
+        <h2 class="mb-1">👤 {% trans "Perfil de usuario" %}</h2>
+        <p class="lead">{% trans "Alias" %}: <strong>{{ user_alias }}</strong></p>
     </div>
 
     <!-- Resumen estadístico -->
     <div class="card mb-4 shadow-sm">
         <div class="card-header bg-light">
-            <i class="fas fa-chart-bar me-2"></i>Resumen estadístico
+            <i class="fas fa-chart-bar me-2"></i>{% trans "Resumen estadístico" %}
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Total de votaciones realizadas: {{ num_votaciones }}</li>
+            <li class="list-group-item">{% trans "Total de votaciones realizadas" %}: {{ num_votaciones }}</li>
             <li class="list-group-item">
-                Puntuación media de tus votaciones:
+                {% trans "Puntuación media de tus votaciones" %}:
                 {% if media_usuario %}
                     {{ media_usuario }}
                 {% else %}
                     <span class="text-muted">N/A</span>
                 {% endif %}
             </li>
-            <li class="list-group-item">Total de comentarios realizados: {{ num_comentarios_usuario }}</li>
-            <li class="list-group-item">Total de juegos en la plataforma: {{ total_juegos }}</li>
-            <li class="list-group-item">Total de comentarios publicados: {{ total_comentarios }}</li>
+            <li class="list-group-item">{% trans "Total de comentarios realizados" %}: {{ num_comentarios_usuario }}</li>
+            <li class="list-group-item">{% trans "Total de juegos en la plataforma" %}: {{ total_juegos }}</li>
+            <li class="list-group-item">{% trans "Total de comentarios publicados" %}: {{ total_comentarios }}</li>
         </ul>
     </div>
 
     <!-- Accesos rápidos -->
     <div class="mb-5 d-flex gap-3 justify-content-center">
         <a href="{% url 'juegos_votados' %}" class="btn btn-outline-primary">
-            ⭐ Juegos votados
+            ⭐ {% trans "Juegos votados" %}
         </a>
         <a href="{% url 'juegos_seguidos' %}" class="btn btn-outline-success">
-            ❤️ Juegos seguidos
+            ❤️ {% trans "Juegos seguidos" %}
         </a>
     </div>
 
     <!-- Juegos votados -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header bg-light">
-            <i class="fas fa-star me-2"></i>Juegos votados
+            <i class="fas fa-star me-2"></i>{% trans "Juegos votados" %}
         </div>
         {% if juegos_votados %}
             <ul class="list-group list-group-flush">
                 {% for juego, voto in juegos_votados %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="{% url 'detalle_juego' juego.id_juego %}">{{ juego.titulo }}</a>
-                        <span class="badge bg-info text-dark">Voto: {{ voto }}</span>
+                        <span class="badge bg-info text-dark">{% trans "Voto" %}: {{ voto }}</span>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <div class="card-body text-muted">No has votado ningún juego todavía.</div>
+            <div class="card-body text-muted">{% trans "No has votado ningún juego todavía." %}</div>
         {% endif %}
     </div>
 
     <!-- Juegos seguidos -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header bg-light">
-            <i class="fas fa-heart me-2"></i>Juegos seguidos
+            <i class="fas fa-heart me-2"></i>{% trans "Juegos seguidos" %}
         </div>
         {% if juegos_seguidos %}
             <ul class="list-group list-group-flush">
@@ -72,27 +74,27 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <div class="card-body text-muted">No estás siguiendo ningún juego todavía.</div>
+            <div class="card-body text-muted">{% trans "No estás siguiendo ningún juego todavía." %}</div>
         {% endif %}
     </div>
 
     <!-- Comentarios del usuario -->
     <div class="card mb-5 shadow-sm">
         <div class="card-header bg-light">
-            <i class="fas fa-comments me-2"></i>Comentarios realizados
+            <i class="fas fa-comments me-2"></i>{% trans "Comentarios realizados" %}
         </div>
         {% if comentarios_usuario %}
             <ul class="list-group list-group-flush">
                 {% for comentario in comentarios_usuario %}
                     <li class="list-group-item">
-                        <strong>Juego:</strong> {{ comentario.juego.titulo }}<br>
+                        <strong>{% trans "Juego" %}:</strong> {{ comentario.juego.titulo }}<br>
                         {{ comentario.texto }}<br>
-                        <small class="text-muted">Publicado el {{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+                        <small class="text-muted">{% trans "Publicado el" %} {{ comentario.fecha|date:"d/m/Y H:i" }}</small>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <div class="card-body text-muted">No has escrito ningún comentario todavía.</div>
+            <div class="card-body text-muted">{% trans "No has escrito ningún comentario todavía." %}</div>
         {% endif %}
     </div>
 

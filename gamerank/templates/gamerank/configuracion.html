@@ -1,9 +1,10 @@
-{% extends "gamerank/base.html" %}
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 
 {% block content %}
 
 <!-- Título de sección -->
-<section class="section-title">🎛️ Personaliza tu experiencia</section>
+<section class="section-title">🎛️ {% trans "Personaliza tu experiencia" %}</section>
 
 <!-- Contenedor centrado -->
 <div class="row justify-content-center">
@@ -18,49 +19,49 @@
                 <!-- Campo alias -->
                 <div class="mb-3">
                     <label for="alias" class="form-label">
-                        <i class="fas fa-user-edit"></i> Alias
+                        <i class="fas fa-user-edit"></i> {% trans "Alias" %}
                     </label>
                     <input type="text" id="alias" name="alias" class="form-control" value="{{ config.alias }}">
-                    <div class="form-text">Este nombre aparecerá en la cabecera.</div>
+                    <div class="form-text">{% trans "Este nombre aparecerá en la cabecera." %}</div>
                 </div>
 
                 <!-- Campo tipo de letra -->
                 <div class="mb-3">
                     <label for="tipo_letra" class="form-label">
-                        <i class="fas fa-font"></i> Tipo de letra
+                        <i class="fas fa-font"></i> {% trans "Tipo de letra" %}
                     </label>
                     <select id="tipo_letra" name="tipo_letra" class="form-select">
-                        <option value="fuente-sans-serif" {% if config.tipo_letra == "fuente-sans-serif" %}selected{% endif %}>Sans Serif</option>
-                        <option value="fuente-serif" {% if config.tipo_letra == "fuente-serif" %}selected{% endif %}>Serif</option>
-                        <option value="fuente-monospace" {% if config.tipo_letra == "fuente-monospace" %}selected{% endif %}>Monoespaciada</option>
-                        <option value="fuente-decorativa" {% if config.tipo_letra == "fuente-decorativa" %}selected{% endif %}>Decorativa</option>
+                        <option value="fuente-sans-serif" {% if config.tipo_letra == "fuente-sans-serif" %}selected{% endif %}>{% trans "Sans Serif" %}</option>
+                        <option value="fuente-serif" {% if config.tipo_letra == "fuente-serif" %}selected{% endif %}>{% trans "Serif" %}</option>
+                        <option value="fuente-monospace" {% if config.tipo_letra == "fuente-monospace" %}selected{% endif %}>{% trans "Monoespaciada" %}</option>
+                        <option value="fuente-decorativa" {% if config.tipo_letra == "fuente-decorativa" %}selected{% endif %}>{% trans "Decorativa" %}</option>
                     </select>
                 </div>
 
                 <!-- Campo tamaño del texto -->
                 <div class="mb-3">
                     <label for="tamano_texto" class="form-label">
-                        <i class="fas fa-text-height"></i> Tamaño del texto
+                        <i class="fas fa-text-height"></i> {% trans "Tamaño del texto" %}
                     </label>
                     <select id="tamano_texto" name="tamano_texto" class="form-select">
-                        <option value="tamano-small" {% if config.tamano_texto == "tamano-small" %}selected{% endif %}>Pequeño</option>
-                        <option value="tamano-medium" {% if config.tamano_texto == "tamano-medium" %}selected{% endif %}>Mediano</option>
-                        <option value="tamano-large" {% if config.tamano_texto == "tamano-large" %}selected{% endif %}>Grande</option>
-                        <option value="tamano-xl" {% if config.tamano_texto == "tamano-xl" %}selected{% endif %}>Extra grande</option>
+                        <option value="tamano-small" {% if config.tamano_texto == "tamano-small" %}selected{% endif %}>{% trans "Pequeño" %}</option>
+                        <option value="tamano-medium" {% if config.tamano_texto == "tamano-medium" %}selected{% endif %}>{% trans "Mediano" %}</option>
+                        <option value="tamano-large" {% if config.tamano_texto == "tamano-large" %}selected{% endif %}>{% trans "Grande" %}</option>
+                        <option value="tamano-xl" {% if config.tamano_texto == "tamano-xl" %}selected{% endif %}>{% trans "Extra grande" %}</option>
                     </select>
                 </div>
 
                 <!-- Botón de guardar -->
                 <div class="d-grid">
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save"></i> Guardar cambios
+                        <i class="fas fa-save"></i> {% trans "Guardar cambios" %}
                     </button>
                 </div>
             </form>
 
             <!-- Enlace para volver al perfil del usuario -->
             <div class="text-center mt-4">
-                <a href="{% url 'pagina_usuario' %}" class="btn btn-link">← Volver a tu perfil</a>
+                <a href="{% url 'pagina_usuario' %}" class="btn btn-link">← {% trans "Volver a tu perfil" %}</a>
             </div>
         </div>
     </div>

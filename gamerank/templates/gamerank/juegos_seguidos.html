@@ -1,10 +1,11 @@
-{% extends "gamerank/base.html" %}
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
 
     <!-- Cabecera -->
-    <h2 class="section-title">Tus juegos seguidos</h2>
+    <h2 class="section-title">{% trans "Tus juegos seguidos" %}</h2>
 
     {% if juegos %}
     <!-- Formulario para dejar de seguir -->
@@ -23,29 +24,29 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">{{ juego.titulo }}</h5>
 
-                        <p class="card-text"><strong>Género:</strong> {{ juego.genero }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.plataforma }}</p>
+                        <p class="card-text"><strong>{% trans "Género" %}:</strong> {{ juego.genero }}</p>
+                        <p class="card-text"><strong>{% trans "Plataforma" %}:</strong> {{ juego.plataforma }}</p>
 
                         {% if juego.puntuacion_media %}
                             <p class="card-text mb-1">
-                                <strong>Puntuación:</strong>
+                                <strong>{% trans "Puntuación" %}:</strong>
                                 {% include "gamerank/includes/estrellas.html" with puntuacion=juego.puntuacion_media %}
                                 <span class="ms-2 text-muted small">({{ juego.puntuacion_media|floatformat:1 }}/5)</span>
                             </p>
                         {% else %}
-                            <p class="card-text"><strong>Puntuación:</strong> N/A</p>
+                            <p class="card-text"><strong>{% trans "Puntuación" %}:</strong> {% trans "N/A" %}</p>
                         {% endif %}
 
-                        <p class="card-text"><strong>Votos:</strong> {{ juego.total_votos }}</p>
+                        <p class="card-text"><strong>{% trans "Votos" %}:</strong> {{ juego.total_votos }}</p>
                     </div>
 
                     <div class="card-footer bg-white border-0 text-center">
                         <!-- Botón dejar de seguir -->
                         <button type="submit" name="Dejar_seguir_{{ juego.id_juego }}" class="btn btn-sm btn-outline-danger me-2">
-                            Dejar de seguir
+                            {% trans "Dejar de seguir" %}
                         </button>
                         <a href="{% url 'detalle_juego' juego.id_juego %}" class="btn btn-sm btn-outline-primary">
-                            Ver detalles
+                            {% trans "Ver detalles" %}
                         </a>
                     </div>
                 </div>
@@ -54,10 +55,10 @@
         </div>
     </form>
     {% else %}
-        <p class="text-muted mt-4">No estás siguiendo ningún juego todavía.</p>
+        <p class="text-muted mt-4">{% trans "No estás siguiendo ningún juego todavía." %}</p>
     {% endif %}
 
     <!-- Enlace volver -->
-    <a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← Volver a tu perfil</a>
+    <a href="{% url 'pagina_usuario' %}" class="btn btn-secondary mt-4">← {% trans "Volver a tu perfil" %}</a>
 </div>
 {% endblock %}

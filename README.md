@@ -44,5 +44,7 @@ La aplicación GameRank es una plataforma interactiva y moderna diseñada para e
   - Se ha añadido un favicon específico y personalizado que proporciona identidad visual consistente a la aplicación en todas las pestañas del navegador, mejorando la experiencia visual del usuario.
 * Filtrado avanzado de juegos desde API externa (FreeToGame):
   - Implementación completa del uso de APIs externas, incluyendo la integración directa con la API pública FreeToGame. Además, se ha añadido la funcionalidad optativa de filtrado avanzado por plataforma (PC, navegador, etc.), facilitando a los usuarios una forma más personalizada y eficiente de explorar juegos que se adapten específicamente a sus preferencias.
+* Internacionalización de la interfaz:
+  - Se ha configurado el sistema de traducción automática según el idioma del navegador, con todos los textos de la interfaz marcados y traducidos al inglés usando makemessages y compilemessages.
 * Tests avanzados y robustos:
   - Completa suite de pruebas automatizadas incluyendo tests unitarios detallados para métodos críticos de los modelos (puntuacion_media, num_likes, etc.), pruebas específicas para funciones auxiliares clave (comentarios_con_votos), y condiciones límite (como evitar comentarios vacíos). Estas pruebas garantizan la robustez, fiabilidad y calidad técnica de la aplicación, facilitando la detección temprana y eficaz de posibles errores.

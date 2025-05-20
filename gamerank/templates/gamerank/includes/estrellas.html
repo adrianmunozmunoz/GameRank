@@ -1,9 +1,8 @@
-<!-- Renderiza 5 estrellas. Rellena hasta la puntuación dada (valor entero). -->
 {% comment %} Estrellas usando Font Awesome {% endcomment %}
 {% for i in "12345" %}
     {% if forloop.counter <= puntuacion %}
-        <i class="fas fa-star text-warning"></i>
+        <i class="fas fa-star text-warning" title="{{ forloop.counter }}/5"></i>
     {% else %}
-        <i class="far fa-star text-warning"></i>
+        <i class="far fa-star text-warning" title="{{ forloop.counter }}/5"></i>
     {% endif %}
 {% endfor %}

@@ -1,24 +1,24 @@
-{% extends "gamerank/base.html" %}
-{% load static %}
+{% extends "gamerank/base.html" %} <!-- Hereda cabecera, menú, pie de página -->
+{% load i18n %}
 
 {% block content %}
 
 <!-- Título principal -->
-<h2 class="section-title mt-4">Juegos desde la API FreeToGame</h2>
+<h2 class="section-title mt-4">{% trans "Juegos desde la API FreeToGame" %}</h2>
 
 <!-- FORMULARIO PARA FILTRAR POR PLATAFORMA -->
 <form method="get" class="mb-5">
     <div class="row g-3 align-items-end">
         <div class="col-auto">
-            <label for="plataforma" class="form-label">Filtrar por plataforma:</label>
+            <label for="plataforma" class="form-label">{% trans "Filtrar por plataforma:" %}</label>
             <select name="plataforma" id="plataforma" class="form-select">
-                <option value="">-- Selecciona una plataforma --</option>
+                <option value="">-- {% trans "Selecciona una plataforma" %} --</option>
                 <option value="pc" {% if plataforma_seleccionada == "pc" %}selected{% endif %}>PC</option>
                 <option value="browser" {% if plataforma_seleccionada == "browser" %}selected{% endif %}>Browser</option>
             </select>
         </div>
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <button type="submit" class="btn btn-primary">{% trans "Filtrar" %}</button>
         </div>
     </div>
 </form>
@@ -34,13 +34,13 @@
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ juego.title }}</h5>
-                        <p class="card-text"><strong>Género:</strong> {{ juego.genre }}</p>
-                        <p class="card-text"><strong>Plataforma:</strong> {{ juego.platform }}</p>
-                        <p class="card-text"><strong>Desarrollador:</strong> {{ juego.developer }}</p>
+                        <p class="card-text"><strong>{% trans "Género" %}:</strong> {{ juego.genre }}</p>
+                        <p class="card-text"><strong>{% trans "Plataforma" %}:</strong> {{ juego.platform }}</p>
+                        <p class="card-text"><strong>{% trans "Desarrollador" %}:</strong> {{ juego.developer }}</p>
                         <p class="card-text small">{{ juego.short_description|truncatechars:120 }}</p>
                     </div>
                     <div class="card-footer text-end bg-white">
-                        <a href="{{ juego.game_url }}" target="_blank" class="btn btn-sm btn-outline-primary">Jugar</a>
+                        <a href="{{ juego.game_url }}" target="_blank" class="btn btn-sm btn-outline-primary">{% trans "Jugar" %}</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
     </div>
 {% elif plataforma_seleccionada %}
     <!-- Si se ha filtrado pero no hay resultados -->
-    <p class="text-muted">No se encontraron juegos para la plataforma seleccionada.</p>
+    <p class="text-muted">{% trans "No se encontraron juegos para la plataforma seleccionada." %}</p>
 {% endif %}
 
 {% endblock %}
