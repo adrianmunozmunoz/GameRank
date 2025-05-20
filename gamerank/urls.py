@@ -29,5 +29,4 @@ urlpatterns = [
     path("juego/<str:id_juego>/htmx/comentario/", views.publicar_comentario_htmx, name="publicar_comentario_htmx"),
 
     # EXTRAS
-    path("juegos/api/", views.juegos_api_freetogame, name="juegos_api_freetogame"),
-]
+    path("juegos/api/", views.juegos_api_unificados, name="juegos_api"),]

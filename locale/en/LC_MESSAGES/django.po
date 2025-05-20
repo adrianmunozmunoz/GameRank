@@ -397,8 +397,8 @@ msgid "Ver detalles"
 msgstr "View details"
 
 #: gamerank/templates/gamerank/juegos_api.html:7
-msgid "Juegos desde la API FreeToGame"
-msgstr "Games from the FreeToGame API"
+msgid "Juegos desde la APIs Públicas"
+msgstr "Games from the publics API"
 
 #: gamerank/templates/gamerank/juegos_api.html:13
 msgid "Filtrar por plataforma:"

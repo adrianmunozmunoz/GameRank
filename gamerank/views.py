@@ -44,6 +44,7 @@ def inicio(request):
         'seguidos_ids': seguidos_ids,
     })
 
+@login_required()
 def detalle_juego(request, id_juego):
     """
     Muestra la ficha de un juego con su información detallada, comentarios y formulario
@@ -350,36 +351,46 @@ def votar_comentario_htmx(request, id_comentario):
     html = render_to_string("gamerank/includes/comentario_individual.html", {"comentario": comentario, "user": request.user})
     return HttpResponse(html)
 
-def juegos_api_freetogame(request):
-    """
-    Muestra un formulario para seleccionar plataforma.
-    ¿Solo muestra los juegos si se ha enviado un filtro? Plataforma=...
-    """
-    juegos = []
+def juegos_api_unificados(request):
     plataforma_filtro = request.GET.get("plataforma", "").lower().strip()
+    juegos_finales = []
 
     if plataforma_filtro:
-        if settings.DEBUG:
-            # En local, descarga desde la API
-            try:
-                response = requests.get("https://www.freetogame.com/api/games", timeout=10)
-                response.raise_for_status()
-                juegos = response.json()
-            except Exception as e:
-                print("❌ Error al conectar con la API de FreeToGame:", e)
-        else:
-            # Para python.anywhere
-            try:
-                ruta_json = os.path.join(settings.BASE_DIR, "data", "juegos_freetogame_backup.json")
-                with open(ruta_json, "r", encoding="utf-8") as f:
-                    juegos = json.load(f)
-            except Exception as e:
-                print("❌ Error al leer el archivo JSON:", e)
+        juegos_dict = {}
 
-        # Aplica el filtro solo si hay datos
-        juegos = [j for j in juegos if plataforma_filtro in j.get("platform", "").lower()]
+        def obtener_juegos(api_url, backup_filename):
+            if settings.DEBUG:
+                try:
+                    response = requests.get(api_url, timeout=10)
+                    response.raise_for_status()
+                    return response.json()
+                except Exception as e:
+                    print(f"❌ Error al conectar con {api_url}:", e)
+                    return []
+            else:
+                try:
+                    ruta = os.path.join(settings.BASE_DIR, "data", backup_filename)
+                    with open(ruta, "r", encoding="utf-8") as f:
+                        return json.load(f)
+                except Exception as e:
+                    print(f"❌ Error al leer {backup_filename}:", e)
+                    return []
+
+        juegos_freetogame = obtener_juegos("https://www.freetogame.com/api/games", "juegos_freetogame_backup.json")
+        juegos_mmobomb = obtener_juegos("https://www.mmobomb.com/api1/games", "juegos_mmobomb_backup.json")
+
+        for juego in juegos_freetogame + juegos_mmobomb:
+            titulo = juego.get("title", "").strip().lower()
+            if titulo and titulo not in juegos_dict:
+                juegos_dict[titulo] = juego
+
+        juegos_finales = list(juegos_dict.values())
+        juegos_finales = [
+            j for j in juegos_finales
+            if plataforma_filtro in j.get("platform", "").lower()
+        ]
 
     return render(request, "gamerank/juegos_api.html", {
-        "juegos": juegos,
+        "juegos": juegos_finales,
         "plataforma_seleccionada": plataforma_filtro
     })
