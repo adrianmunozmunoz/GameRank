@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14466086-716b-4dc8-ac64-d819594b5851" name="Changes" comment="proyecto y aplicacion creadas">
-      <change afterPath="$PROJECT_DIR$/scripts/descargar_mmobomb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/management/commands/importar_listado1.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/management/commands/importar_listado1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_api.html" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/templates/gamerank/juegos_api.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerank/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamerank/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gamerankproject/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/gamerankproject/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" beforeDir="false" afterPath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.po" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.mo" beforeDir="false" afterPath="$PROJECT_DIR$/locale/en/LC_MESSAGES/django.mo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +96,7 @@
       <workItem from="1746953635369" duration="7291000" />
       <workItem from="1747567770236" duration="6293000" />
       <workItem from="1747642015225" duration="31821000" />
-      <workItem from="1747727335854" duration="15785000" />
+      <workItem from="1747727335854" duration="16537000" />
     </task>
     <servers />
   </component>
