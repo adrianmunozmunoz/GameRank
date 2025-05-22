@@ -8,8 +8,8 @@
 * Titulación: Ingeniería en Tecnologías de la Telecomunicación
 * Cuenta en laboratorios: adrimm
 * Cuenta URJC: a.munozm.2021@alumnos.urjc.es
-* Video básico (url):
-* Video parte opcional (url):
+* Video básico (url): https://www.youtube.com/watch?v=6OCmZZMRA8s
+* Video parte opcional (url): https://www.youtube.com/watch?v=VhpBB2SarOY
 * Despliegue (url): https://adrimm.pythonanywhere.com/
 * Contraseñas: juan/arjona1234 maria/ismav1234 guille/llermo4567
 * Cuenta Admin Site: adrimm/adrimm
@@ -42,8 +42,13 @@ La aplicación GameRank es una plataforma interactiva y moderna diseñada para e
   - Innovador sistema interactivo basado en HTMX que permite a los usuarios valorar comentarios con votos positivos o negativos sin necesidad de recargar la página. Esta funcionalidad no solo cumple con lo solicitado, sino que aporta una experiencia de usuario mucho más dinámica y agradable gracias a la actualización visual inmediata de cada comentario.
 * Favicon personalizado:
   - Se ha añadido un favicon específico y personalizado que proporciona identidad visual consistente a la aplicación en todas las pestañas del navegador, mejorando la experiencia visual del usuario.
-* Filtrado avanzado de juegos desde API externa (FreeToGame):
-  - Implementación completa del uso de APIs externas, incluyendo la integración directa con la API pública FreeToGame. Además, se ha añadido la funcionalidad optativa de filtrado avanzado por plataforma (PC, navegador, etc.), facilitando a los usuarios una forma más personalizada y eficiente de explorar juegos que se adapten específicamente a sus preferencias.
+* Integración avanzada con APIs públicas (FreeToGame + MMOBomb):
+  - Se ha implementado una funcionalidad optativa que unifica los datos de dos APIs externas (FreeToGame y MMOBomb) en una única vista de exploración.
+  - Los juegos se fusionan automáticamente evitando duplicados mediante comparación de títulos, lo que garantiza que cada juego aparezca una sola vez, incluso si figura en ambas fuentes.
+  - Se permite al usuario filtrar los juegos por plataforma (PC y Browser).
+  - Además, la implementación está adaptada al entorno de despliegue:
+    - En desarrollo local (`DEBUG=True`), los datos se descargan en tiempo real desde las APIs para asegurar información actualizada.
+    - En producción (`DEBUG=False`, como en PythonAnywhere), se utilizan copias locales predescargadas en formato JSON debido a las restricciones de acceso a URLs externas impuestas por la plataforma.
 * Internacionalización de la interfaz:
   - Se ha configurado el sistema de traducción automática según el idioma del navegador, con todos los textos de la interfaz marcados y traducidos al inglés usando makemessages y compilemessages.
 * Tests avanzados y robustos:
