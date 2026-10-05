@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET
 
-import requests
+import os
+
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from gamerank.models import Juego
 
@@ -8,11 +10,9 @@ class Command(BaseCommand):
     help = "Importa juegos desde listado1.xml (prefijo LIS1-)"
 
     def handle(self, *args, **kwargs):
+        ruta = os.path.join(settings.BASE_DIR, "listado1.xml")
         try:
-            url = "https://gitlab.eif.urjc.es/cursosweb/2024-2025/final-gamerank/-/raw/main/listado1.xml"
-            response = requests.get(url)
-            response.raise_for_status()
-            root = ET.fromstring(response.content)
+            root = ET.parse(ruta).getroot()
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error al leer el archivo XML: {e}"))
             return
