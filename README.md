@@ -1,63 +1,79 @@
 # GameRank
 
-A Django web application to browse, rate and comment on free-to-play video games.
+A Django web application to browse, rate and comment on free-to-play video games. Final project for a web applications course at Universidad Rey Juan Carlos (2024-2025).
 
-I built it as the final project for a web applications course at Universidad Rey Juan Carlos (2024–2025). Demo video: [youtube.com/watch?v=6OCmZZMRA8s](https://www.youtube.com/watch?v=6OCmZZMRA8s)
+## Details
 
-## Features
+* Name: Adrián Muñoz
+* Degree: Telecommunication Engineering
+* Basic features video (url): https://www.youtube.com/watch?v=6OCmZZMRA8s
+* Optional features video (url): https://www.youtube.com/watch?v=VhpBB2SarOY
+* Passwords: juan/arjona1234 maria/ismav1234 guille/llermo4567
 
-- **Game catalogue** loaded from an XML listing, with the main page sorted by average user rating.
-- **Game pages** with details, a 0–5 rating, follow button and comments.
-- **Dynamic version with HTMX:** comments are loaded and posted without reloading the page, and comments can be liked or disliked in place.
-- **User area:** summary of each user's ratings, comments and followed games, plus settings for alias, font and text size.
-- **External APIs:** a page that merges the FreeToGame and MMOBomb public APIs into a single list, removes duplicates by title and filters by platform (PC or browser). In production it reads from local JSON backups instead of calling the APIs.
-- **JSON endpoint** for each game (`/juego/<id>.json`).
-- **Spanish and English interface**, chosen from the browser language.
-- **Footer metrics** with totals for the site and the current user.
-- **Django admin** for managing users and content.
-- **15 automated tests** covering models, helper functions and views.
+## Core features
 
-## Tech
+GameRank is a platform to browse, rate and comment on video games. Its main features are:
 
-Python · Django 5.1 · SQLite · HTMX · Bootstrap · Django i18n · REST APIs (`requests`)
+- Main list of games sorted by average rating, so the best-rated ones are easy to find.
 
-## Data model
+- Detail page for each game with image, description, technical information, a 0 to 5 rating and comments sorted by date.
 
-`Juego` (game) · `Valoracion` (rating, one per user and game) · `Comentario` (comment) · `VotoComentario` (like/dislike on a comment) · `Seguimiento` (followed game) · `ConfiguracionUsuario` (per-user display settings)
+- Dynamic version built with HTMX, which loads and posts comments without reloading the page.
 
-## Project structure
+- User authentication, so each user can rate, comment on and follow games and save their preferences.
 
-```
-gamerank/              Main app: models, views, templates, tests
-  management/commands/ importar_listado1: loads games from listado1.xml
-gamerankproject/       Django settings and root URLs
-data/                  Local JSON backups of the two external APIs
-scripts/               Scripts to refresh those backups
-locale/                English translations
-static/, templates/    Shared static files, login and logout pages
-listado1.xml           Game listing used to populate the database
-```
+- Personal page with a summary of the user's ratings, comments and followed games.
+
+- Bootstrap interface with options to change the font and text size.
+
+- Django Admin Site to manage users and content.
+
+- Footer metrics with the total number of games and comments, and the current user's activity.
+
+- JSON resource for each game (`/juego/<id>.json`).
+
+- Help page explaining how the application works.
+
+## Optional features
+
+* "Like / Dislike" on comments:
+  - Users can vote on other users' comments. It works with HTMX, so the counter updates instantly without reloading the page.
+* Custom favicon:
+  - The application has its own icon in the browser tab.
+* Integration with two public APIs (FreeToGame and MMOBomb):
+  - One view merges the games from both APIs into a single list.
+  - Duplicates are removed by comparing titles, so each game appears only once.
+  - Games can be filtered by platform (PC or browser).
+  - In development (`DEBUG=True`) the data is downloaded live; in production (`DEBUG=False`) it uses copies stored in `data/`, because the hosting server did not allow requests to external URLs.
+* Internationalisation:
+  - The interface is shown in Spanish or English depending on the browser language. All texts are marked and translated with `makemessages` and `compilemessages`.
+* Automated tests:
+  - 15 tests covering the main model methods (such as `puntuacion_media` or `num_likes`), helper functions (`comentarios_con_votos`) and edge cases, such as preventing empty comments.
 
 ## How to run it
 
-Requires Python 3.10 or later.
+Requires Python 3.10 or later. The repository includes a sample database with 78 games, comments, ratings and the test users above.
 
 ```bash
 git clone https://github.com/adrimm22/GameRank.git
 cd GameRank
 python -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
+source venv/bin/activate          # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-python manage.py migrate
-python manage.py importar_listado1
-python manage.py createsuperuser  # optional, to use /admin and log in
 python manage.py runserver
 ```
 
-Then open http://127.0.0.1:8000. To create regular users, use the admin site at `/admin`.
+The application will be available at http://127.0.0.1:8000.
 
-Run the tests with:
+To start with an empty database, delete `db.sqlite3` and run:
+
+```bash
+python manage.py migrate
+python manage.py importar_listado1
+python manage.py createsuperuser
+```
+
+To run the tests:
 
 ```bash
 python manage.py test gamerank
@@ -65,12 +81,10 @@ python manage.py test gamerank
 
 ## Configuration
 
-Settings are read from environment variables, with defaults meant for local development:
+Settings are read from environment variables. If they are not set, defaults meant for local development are used:
 
-| Variable               | Default                 |
-|------------------------|-------------------------|
-| `DJANGO_SECRET_KEY`    | development-only key    |
-| `DJANGO_DEBUG`         | `True`                  |
-| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1`   |
-
-With `DJANGO_DEBUG=True` the API page calls FreeToGame and MMOBomb live; with `False` it uses the backups in `data/`.
+| Variable               | Default                     |
+|------------------------|-----------------------------|
+| `DJANGO_SECRET_KEY`    | development-only key        |
+| `DJANGO_DEBUG`         | `True`                      |
+| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1`       |
