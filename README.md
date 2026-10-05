@@ -1,55 +1,76 @@
-# ENTREGA CONVOCATORIA MAYO
+# GameRank
 
-# ENTREGA DE PRÁCTICA
+A Django web application to browse, rate and comment on free-to-play video games.
 
-## Datos
+I built it as the final project for a web applications course at Universidad Rey Juan Carlos (2024–2025). Demo video: [youtube.com/watch?v=6OCmZZMRA8s](https://www.youtube.com/watch?v=6OCmZZMRA8s)
 
-* Nombre: Adrián Muñoz
-* Titulación: Ingeniería en Tecnologías de la Telecomunicación
-* Cuenta en laboratorios: adrimm
-* Cuenta URJC: a.munozm.2021@alumnos.urjc.es
-* Video básico (url): https://www.youtube.com/watch?v=6OCmZZMRA8s
-* Video parte opcional (url): https://www.youtube.com/watch?v=VhpBB2SarOY
-* Despliegue (url): https://adrimm.pythonanywhere.com/
-* Contraseñas: juan/arjona1234 maria/ismav1234 guille/llermo4567
-* Cuenta Admin Site: adrimm/adrimm
+## Features
 
-## Resumen parte obligatoria
-La aplicación GameRank es una plataforma interactiva y moderna diseñada para explorar, valorar y comentar videojuegos con una experiencia intuitiva y atractiva. Entre sus principales características destacan:
+- **Game catalogue** loaded from an XML listing, with the main page sorted by average user rating.
+- **Game pages** with details, a 0–5 rating, follow button and comments.
+- **Dynamic version with HTMX:** comments are loaded and posted without reloading the page, and comments can be liked or disliked in place.
+- **User area:** summary of each user's ratings, comments and followed games, plus settings for alias, font and text size.
+- **External APIs:** a page that merges the FreeToGame and MMOBomb public APIs into a single list, removes duplicates by title and filters by platform (PC or browser). In production it reads from local JSON backups instead of calling the APIs.
+- **JSON endpoint** for each game (`/juego/<id>.json`).
+- **Spanish and English interface**, chosen from the browser language.
+- **Footer metrics** with totals for the site and the current user.
+- **Django admin** for managing users and content.
+- **15 automated tests** covering models, helper functions and views.
 
-- Un listado principal interactivo de juegos ordenado automáticamente por puntuación media, permitiendo descubrir fácilmente los juegos mejor valorados.
+## Tech
 
-- Página detallada por juego con imagen destacada, descripción completa, información técnica, sistema intuitivo de valoración y comentarios organizados por fecha.
+Python · Django 5.1 · SQLite · HTMX · Bootstrap · Django i18n · REST APIs (`requests`)
 
-- Innovadora versión dinámica (con HTMX) que actualiza comentarios en tiempo real, formularios dinámicos y publicación instantánea sin recargar la página, mejorando significativamente la experiencia del usuario.
+## Data model
 
-- Potente sistema de autenticación y configuración personalizable que permite a cada usuario votar, comentar y seguir juegos de forma individual, con guardado automático de sus preferencias.
+`Juego` (game) · `Valoracion` (rating, one per user and game) · `Comentario` (comment) · `VotoComentario` (like/dislike on a comment) · `Seguimiento` (followed game) · `ConfiguracionUsuario` (per-user display settings)
 
-- Completa área personal del usuario con resúmenes estadísticos claros y precisos sobre sus valoraciones, comentarios y juegos seguidos, facilitando un seguimiento eficaz de la actividad en la plataforma.
+## Project structure
 
-- Interfaz visualmente agradable y adaptable gracias al uso de Bootstrap, con opciones personalizables de fuente y tamaño de texto.
+```
+gamerank/              Main app: models, views, templates, tests
+  management/commands/ importar_listado1: loads games from listado1.xml
+gamerankproject/       Django settings and root URLs
+data/                  Local JSON backups of the two external APIs
+scripts/               Scripts to refresh those backups
+locale/                English translations
+static/, templates/    Shared static files, login and logout pages
+listado1.xml           Game listing used to populate the database
+```
 
-- Integración del Admin Site para gestión avanzada de usuarios y contenido.
+## How to run it
 
-- Métricas actualizadas en tiempo real en el pie de página que ofrecen información valiosa sobre la participación general y personal.
+Requires Python 3.10 or later.
 
-- Recursos JSON individuales por juego para una fácil integración y consulta externa.
+```bash
+git clone https://github.com/adrimm22/GameRank.git
+cd GameRank
+python -m venv venv
+source venv/bin/activate          # Windows: venv\Scripts\activate
+pip install -r requirements.txt
 
-- Página de ayuda clara y accesible, mejorando la comprensión y el uso de la aplicación.## Lista partes opcionales
+python manage.py migrate
+python manage.py importar_listado1
+python manage.py createsuperuser  # optional, to use /admin and log in
+python manage.py runserver
+```
 
-## Lista partes opcionales
-* Sistema de "Me gusta / No me gusta" en comentarios:
-  - Innovador sistema interactivo basado en HTMX que permite a los usuarios valorar comentarios con votos positivos o negativos sin necesidad de recargar la página. Esta funcionalidad no solo cumple con lo solicitado, sino que aporta una experiencia de usuario mucho más dinámica y agradable gracias a la actualización visual inmediata de cada comentario.
-* Favicon personalizado:
-  - Se ha añadido un favicon específico y personalizado que proporciona identidad visual consistente a la aplicación en todas las pestañas del navegador, mejorando la experiencia visual del usuario.
-* Integración avanzada con APIs públicas (FreeToGame + MMOBomb):
-  - Se ha implementado una funcionalidad optativa que unifica los datos de dos APIs externas (FreeToGame y MMOBomb) en una única vista de exploración.
-  - Los juegos se fusionan automáticamente evitando duplicados mediante comparación de títulos, lo que garantiza que cada juego aparezca una sola vez, incluso si figura en ambas fuentes.
-  - Se permite al usuario filtrar los juegos por plataforma (PC y Browser).
-  - Además, la implementación está adaptada al entorno de despliegue:
-    - En desarrollo local (`DEBUG=True`), los datos se descargan en tiempo real desde las APIs para asegurar información actualizada.
-    - En producción (`DEBUG=False`, como en PythonAnywhere), se utilizan copias locales predescargadas en formato JSON debido a las restricciones de acceso a URLs externas impuestas por la plataforma.
-* Internacionalización de la interfaz:
-  - Se ha configurado el sistema de traducción automática según el idioma del navegador, con todos los textos de la interfaz marcados y traducidos al inglés usando makemessages y compilemessages.
-* Tests avanzados y robustos:
-  - Completa suite de pruebas automatizadas incluyendo tests unitarios detallados para métodos críticos de los modelos (puntuacion_media, num_likes, etc.), pruebas específicas para funciones auxiliares clave (comentarios_con_votos), y condiciones límite (como evitar comentarios vacíos). Estas pruebas garantizan la robustez, fiabilidad y calidad técnica de la aplicación, facilitando la detección temprana y eficaz de posibles errores.
+Then open http://127.0.0.1:8000. To create regular users, use the admin site at `/admin`.
+
+Run the tests with:
+
+```bash
+python manage.py test gamerank
+```
+
+## Configuration
+
+Settings are read from environment variables, with defaults meant for local development:
+
+| Variable               | Default                 |
+|------------------------|-------------------------|
+| `DJANGO_SECRET_KEY`    | development-only key    |
+| `DJANGO_DEBUG`         | `True`                  |
+| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1`   |
+
+With `DJANGO_DEBUG=True` the API page calls FreeToGame and MMOBomb live; with `False` it uses the backups in `data/`.
