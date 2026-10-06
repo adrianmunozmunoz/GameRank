@@ -55,8 +55,7 @@ GameRank is a platform to browse, rate and comment on video games. Its main feat
 Requires Python 3.10 or later. The repository includes a sample database with 78 games, comments, ratings and the test users above.
 
 ```bash
-git clone https://github.com/adrimm22/GameRank.git
-cd GameRank
+git clone https://github.com/adrianmunozmunoz/GameRank.gitcd GameRank
 python -m venv venv
 source venv/bin/activate          # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
